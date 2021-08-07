@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package InformationManagement;
+package EnrollmentSystem;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -63,29 +63,29 @@ public class students extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        idCB = new javax.swing.JComboBox<>();
+        idCB = new javax.swing.JComboBox<String>();
         ID_TF = new javax.swing.JTextField();
-        nameCB = new javax.swing.JComboBox<>();
+        nameCB = new javax.swing.JComboBox<String>();
         jLabel13 = new javax.swing.JLabel();
         Sname_TF = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         Ename_TF = new javax.swing.JTextField();
         Saddress_TF = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        addressCB = new javax.swing.JComboBox<>();
+        addressCB = new javax.swing.JComboBox<String>();
         jLabel17 = new javax.swing.JLabel();
         Scourse_TF = new javax.swing.JTextField();
         Ecourse_TF = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
-        courseCB = new javax.swing.JComboBox<>();
+        courseCB = new javax.swing.JComboBox<String>();
         Eaddress_TF = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        genderCB = new javax.swing.JComboBox<>();
+        genderCB = new javax.swing.JComboBox<String>();
         jLabel19 = new javax.swing.JLabel();
         Sgender_TF = new javax.swing.JTextField();
         Egender_TF = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
-        ylvlCB = new javax.swing.JComboBox<>();
+        ylvlCB = new javax.swing.JComboBox<String>();
         Eylvl_TF = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
@@ -170,7 +170,7 @@ public class students extends javax.swing.JFrame {
 
         jLabel12.setText("Student Year lvl");
 
-        idCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "=", "<>", "<", ">", "<=", ">=" }));
+        idCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "=", "<>", "<", ">", "<=", ">=" }));
         idCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 idCBActionPerformed(evt);
@@ -183,7 +183,7 @@ public class students extends javax.swing.JFrame {
             }
         });
 
-        nameCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "OR", "AND" }));
+        nameCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "OR", "AND" }));
         nameCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nameCBActionPerformed(evt);
@@ -214,7 +214,7 @@ public class students extends javax.swing.JFrame {
 
         jLabel16.setText("Starts");
 
-        addressCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "OR", "AND" }));
+        addressCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "OR", "AND" }));
         addressCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addressCBActionPerformed(evt);
@@ -237,7 +237,7 @@ public class students extends javax.swing.JFrame {
 
         jLabel18.setText("Ends");
 
-        courseCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "OR", "AND" }));
+        courseCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "OR", "AND" }));
         courseCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 courseCBActionPerformed(evt);
@@ -252,7 +252,7 @@ public class students extends javax.swing.JFrame {
 
         jLabel15.setText("Ends");
 
-        genderCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "OR", "AND" }));
+        genderCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "OR", "AND" }));
         genderCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 genderCBActionPerformed(evt);
@@ -275,7 +275,7 @@ public class students extends javax.swing.JFrame {
 
         jLabel20.setText("Ends");
 
-        ylvlCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "OR", "AND" }));
+        ylvlCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "OR", "AND" }));
         ylvlCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ylvlCBActionPerformed(evt);
@@ -619,7 +619,7 @@ public class students extends javax.swing.JFrame {
         
         String query = "INSERT INTO students VALUES (?, ?, ?, ?, ?, ?)";
         try{
-            PreparedStatement st = InformationManagement.con.prepareStatement(query);
+            PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
             
             st.setInt(1, Integer.parseInt(studentID.getText()));
             st.setString(2, studentName.getText());
@@ -648,7 +648,7 @@ public class students extends javax.swing.JFrame {
             else{
                 query += " WHERE student_id in (select student_id from (" + finalQuery + ") as x)"; 
             }
-            PreparedStatement st = InformationManagement.con.prepareStatement(query);
+            PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
             st.executeUpdate();
             filter();
         }catch(Exception ex){
@@ -674,7 +674,7 @@ public class students extends javax.swing.JFrame {
             ArrayList<String> includes = new ArrayList<>();
             
             if (studentID.getText().length() > 0){
-                includes.add(" student_id = " + studentID.getText() + "'");
+                includes.add(" student_id = " + studentID.getText());
             }
             
             if (studentName.getText().length() > 0){
@@ -708,7 +708,7 @@ public class students extends javax.swing.JFrame {
                 query += " WHERE student_id in (select student_id from (" + finalQuery + ") as x)"; 
             }
             
-            PreparedStatement st = InformationManagement.con.prepareStatement(query);       
+            PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);       
             st.executeUpdate();
             filter();
         }catch(Exception ex){
@@ -838,7 +838,7 @@ public class students extends javax.swing.JFrame {
 
         studentTableModel.setRowCount(0);
         try{
-            ResultSet rsStudentTable = InformationManagement.con.createStatement().executeQuery("SELECT * FROM students");
+            ResultSet rsStudentTable = EnrollmentSystem.con.createStatement().executeQuery("SELECT * FROM students");
             
             while (rsStudentTable.next()){
                 String id = rsStudentTable.getString("student_id");
@@ -987,7 +987,7 @@ public class students extends javax.swing.JFrame {
         System.out.println(finalQuery);
         
         try{
-            ResultSet rsStudentTable = InformationManagement.con.createStatement().executeQuery(finalQuery);
+            ResultSet rsStudentTable = EnrollmentSystem.con.createStatement().executeQuery(finalQuery);
             
             while (rsStudentTable.next()){
                 String idd = rsStudentTable.getString("student_id");

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package InformationManagement;
+package EnrollmentSystem;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,7 +12,7 @@ import java.sql.DriverManager;
  *
  * @author Ricky
  */
-public class InformationManagement {
+public class EnrollmentSystem {
 
     /**
      * @param args the command line arguments
@@ -30,12 +30,11 @@ public class InformationManagement {
         String pass = "Langgalangga1";
 
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/im",user,pass);
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/im", user, pass);
         }
         catch(Exception e){
             System.out.println(e);
         }
-        
         students studentsClass = new students();
         studentsClass.setVisible(true);
         

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package InformationManagement;
+package EnrollmentSystem;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -44,7 +44,7 @@ public class subjects extends javax.swing.JFrame {
         deleteBtn = new javax.swing.JButton();
         updateBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        studentTable = new javax.swing.JTable();
+        classTable = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -114,7 +114,7 @@ public class subjects extends javax.swing.JFrame {
             }
         });
 
-        studentTable.setModel(new javax.swing.table.DefaultTableModel(
+        classTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -122,12 +122,12 @@ public class subjects extends javax.swing.JFrame {
                 "Student ID", "Student Name", "Student Address", "Student Course", "Student Gender", "Student Year"
             }
         ));
-        studentTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        classTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                studentTableMouseClicked(evt);
+                classTableMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(studentTable);
+        jScrollPane1.setViewportView(classTable);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Filter", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
 
@@ -531,7 +531,7 @@ public class subjects extends javax.swing.JFrame {
             else{
                 query += " WHERE subject_id in (SELECT subject_id from (" + finalQuery + ") as x)";
             }
-            PreparedStatement st = InformationManagement.con.prepareStatement(query);
+            PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
             st.executeUpdate();
             filter();
         }catch(Exception ex){
@@ -544,11 +544,11 @@ public class subjects extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         try{
-            String query = "UPDATE subject SET";
+            String query = "UPDATE subjects SET";
             ArrayList<String> includes = new ArrayList<>();
 
             if (subjectID.getText().length() > 0){
-                includes.add(" subject_id = " + subjectID.getText() + "'");
+                includes.add(" subject_id = " + subjectID.getText());
             }
 
             if (SubjectCode.getText().length() > 0){
@@ -560,7 +560,7 @@ public class subjects extends javax.swing.JFrame {
             }
 
             if (SubjectUnit.getText().length() > 0){
-                includes.add(" subject_unit = '" + SubjectUnit.getText() + "'");
+                includes.add(" subject_units = " + SubjectUnit.getText());
             }
 
             if (SubjectSched.getText().length() > 0){
@@ -577,7 +577,7 @@ public class subjects extends javax.swing.JFrame {
                 query += " WHERE subject_id in (select subject_id from (" + finalQuery + ") as x)";
             }
 
-            PreparedStatement st = InformationManagement.con.prepareStatement(query);
+            PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
             st.executeUpdate();
             filter();
         }catch(Exception ex){
@@ -586,62 +586,51 @@ public class subjects extends javax.swing.JFrame {
 
     }//GEN-LAST:event_updateBtnActionPerformed
 
-    private void studentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_studentTableMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_studentTableMouseClicked
+    private void classTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_classTableMouseClicked
+
+    }//GEN-LAST:event_classTableMouseClicked
 
     private void idCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idCBActionPerformed
-        // TODO add your handling code here:
         filter();
     }//GEN-LAST:event_idCBActionPerformed
 
     private void ID_TFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ID_TFKeyReleased
-        // TODO add your handling code here:
         filter();
     }//GEN-LAST:event_ID_TFKeyReleased
 
     private void code_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_code_CBActionPerformed
-        // TODO add your handling code here:
         filter();
     }//GEN-LAST:event_code_CBActionPerformed
 
     private void Scode_TFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Scode_TFKeyReleased
-        // TODO add your handling code here:
         filter();
     }//GEN-LAST:event_Scode_TFKeyReleased
 
     private void Ecode_TFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Ecode_TFKeyReleased
-        // TODO add your handling code here:
         filter();
     }//GEN-LAST:event_Ecode_TFKeyReleased
 
     private void Sdesc_TFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Sdesc_TFKeyReleased
-        // TODO add your handling code here:
         filter();
     }//GEN-LAST:event_Sdesc_TFKeyReleased
 
     private void desc_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_desc_CBActionPerformed
-        // TODO add your handling code here:
         filter();
     }//GEN-LAST:event_desc_CBActionPerformed
 
     private void units_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_units_CBActionPerformed
-        // TODO add your handling code here:
         filter();
     }//GEN-LAST:event_units_CBActionPerformed
 
     private void Edesc_TFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Edesc_TFKeyReleased
-        // TODO add your handling code here:
         filter();
     }//GEN-LAST:event_Edesc_TFKeyReleased
 
     private void sched_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sched_CBActionPerformed
-        // TODO add your handling code here:
         filter();
     }//GEN-LAST:event_sched_CBActionPerformed
 
     private void sched_TFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sched_TFKeyReleased
-        // TODO add your handling code here:
         filter();
     }//GEN-LAST:event_sched_TFKeyReleased
 
@@ -649,7 +638,7 @@ public class subjects extends javax.swing.JFrame {
 
         String query = "INSERT INTO subjects VALUES (?, ?, ?, ?, ?)";
         try{
-            PreparedStatement st = InformationManagement.con.prepareStatement(query);
+            PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
 
             st.setInt(1, Integer.parseInt(subjectID.getText()));
             st.setString(2, SubjectCode.getText());
@@ -667,27 +656,32 @@ public class subjects extends javax.swing.JFrame {
     }//GEN-LAST:event_saveBtnActionPerformed
 
     private void subjectTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subjectTableMouseClicked
-        // TODO add your handling code here:
+        int idx = subjectTable.getSelectedRow();
+        subjectID.setText(subjectTable.getValueAt(idx, 0).toString());
+        SubjectCode.setText(subjectTable.getValueAt(idx, 1).toString());
+        SubjectDesc.setText(subjectTable.getValueAt(idx, 2).toString());
+        SubjectUnit.setText(subjectTable.getValueAt(idx, 3).toString());
+        SubjectSched.setText(subjectTable.getValueAt(idx, 4).toString());
     }//GEN-LAST:event_subjectTableMouseClicked
 
     private void units_CB2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_units_CB2ActionPerformed
-        // TODO add your handling code here:
+        filter();
     }//GEN-LAST:event_units_CB2ActionPerformed
 
     private void units_TFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_units_TFKeyReleased
-        // TODO add your handling code here:
+        filter();
     }//GEN-LAST:event_units_TFKeyReleased
 
     private void enrolled_CB2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enrolled_CB2ActionPerformed
-        // TODO add your handling code here:
+        filter();
     }//GEN-LAST:event_enrolled_CB2ActionPerformed
 
     private void enrolled_TFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_enrolled_TFKeyReleased
-        // TODO add your handling code here:
+        filter();
     }//GEN-LAST:event_enrolled_TFKeyReleased
 
     private void enrolled_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enrolled_CBActionPerformed
-        // TODO add your handling code here:
+        filter();
     }//GEN-LAST:event_enrolled_CBActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -695,42 +689,43 @@ public class subjects extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void ID_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ID_TFActionPerformed
-        // TODO add your handling code here:
+        filter();
     }//GEN-LAST:event_ID_TFActionPerformed
 
     private void Scode_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Scode_TFActionPerformed
-        // TODO add your handling code here:
+        filter();
     }//GEN-LAST:event_Scode_TFActionPerformed
 
     private void Ecode_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Ecode_TFActionPerformed
-        // TODO add your handling code here:
+        filter();
     }//GEN-LAST:event_Ecode_TFActionPerformed
 
     private void Sdesc_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Sdesc_TFActionPerformed
-        // TODO add your handling code here:
+        filter();
     }//GEN-LAST:event_Sdesc_TFActionPerformed
 
     private void Edesc_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Edesc_TFActionPerformed
-        // TODO add your handling code here:
+        filter();
     }//GEN-LAST:event_Edesc_TFActionPerformed
 
     private void units_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_units_TFActionPerformed
-        // TODO add your handling code here:
+        filter();
     }//GEN-LAST:event_units_TFActionPerformed
 
     private void enrolled_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enrolled_TFActionPerformed
-        // TODO add your handling code here:
+        filter();
     }//GEN-LAST:event_enrolled_TFActionPerformed
 
     private void sched_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sched_TFActionPerformed
         // TODO add your handling code here:
+        filter();
     }//GEN-LAST:event_sched_TFActionPerformed
     public void updateTable(){
         DefaultTableModel subjectTableModel = (DefaultTableModel) subjectTable.getModel();
 
         subjectTableModel.setRowCount(0);
         try{
-            ResultSet rsSubjectTable = InformationManagement.con.createStatement().executeQuery("SELECT * FROM subjects");
+            ResultSet rsSubjectTable = EnrollmentSystem.con.createStatement().executeQuery("SELECT * FROM subjects");
             
             while (rsSubjectTable.next()){
                 String idd = rsSubjectTable.getString("subject_id");
@@ -840,7 +835,7 @@ public class subjects extends javax.swing.JFrame {
                     finalQuery += " " + sched_CB.getSelectedItem().toString();
                     first = false;
                 }
-                finalQuery += " subject_sched LIKE '%" + sched + "'";
+                finalQuery += " subject_sched LIKE '" + sched + "%'";
             }
             
             
@@ -849,7 +844,7 @@ public class subjects extends javax.swing.JFrame {
         System.out.println(finalQuery);
         
         try{
-            ResultSet rsSubjectTable = InformationManagement.con.createStatement().executeQuery(finalQuery);
+            ResultSet rsSubjectTable = EnrollmentSystem.con.createStatement().executeQuery(finalQuery);
             
             while (rsSubjectTable.next()){
                 String idd = rsSubjectTable.getString("subject_id");
@@ -913,6 +908,7 @@ public class subjects extends javax.swing.JFrame {
     private javax.swing.JTextField SubjectDesc;
     private javax.swing.JTextField SubjectSched;
     private javax.swing.JTextField SubjectUnit;
+    private javax.swing.JTable classTable;
     private javax.swing.JComboBox<String> code_CB;
     private javax.swing.JButton deleteBtn;
     private javax.swing.JComboBox<String> desc_CB;
@@ -942,7 +938,6 @@ public class subjects extends javax.swing.JFrame {
     private javax.swing.JButton saveBtn;
     private javax.swing.JComboBox<String> sched_CB;
     private javax.swing.JTextField sched_TF;
-    private javax.swing.JTable studentTable;
     private javax.swing.JTextField subjectID;
     private javax.swing.JTable subjectTable;
     private javax.swing.JComboBox<String> units_CB;
