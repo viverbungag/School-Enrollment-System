@@ -6,7 +6,9 @@
 package InformationManagement;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,6 +19,8 @@ public class subjects extends javax.swing.JFrame {
     /**
      * Creates new form subjects
      */
+    
+    String finalQuery;
     public subjects() {
         initComponents();
     }
@@ -47,36 +51,41 @@ public class subjects extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        idCB = new javax.swing.JComboBox<>();
+        idCB = new javax.swing.JComboBox<String>();
         ID_TF = new javax.swing.JTextField();
-        code_CB = new javax.swing.JComboBox<>();
+        code_CB = new javax.swing.JComboBox<String>();
         jLabel13 = new javax.swing.JLabel();
         Scode_TF = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         Ecode_TF = new javax.swing.JTextField();
         Sdesc_TF = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        desc_CB = new javax.swing.JComboBox<>();
-        units_CB = new javax.swing.JComboBox<>();
+        desc_CB = new javax.swing.JComboBox<String>();
+        units_CB = new javax.swing.JComboBox<String>();
         Edesc_TF = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        sched_CB = new javax.swing.JComboBox<>();
+        sched_CB = new javax.swing.JComboBox<String>();
         sched_TF = new javax.swing.JTextField();
-        units_CB2 = new javax.swing.JComboBox<>();
-        Egender_TF1 = new javax.swing.JTextField();
+        units_CB2 = new javax.swing.JComboBox<String>();
+        units_TF = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        enrolled_CB2 = new javax.swing.JComboBox<>();
-        Egender_TF2 = new javax.swing.JTextField();
-        enrolled_CB = new javax.swing.JComboBox<>();
+        enrolled_CB2 = new javax.swing.JComboBox<String>();
+        enrolled_TF = new javax.swing.JTextField();
+        enrolled_CB = new javax.swing.JComboBox<String>();
         jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         SubjectUnit = new javax.swing.JTextField();
         subjectID = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        studentTable1 = new javax.swing.JTable();
+        subjectTable = new javax.swing.JTable();
         jLabel23 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel5.setText("Subject Sched");
 
@@ -132,20 +141,25 @@ public class subjects extends javax.swing.JFrame {
 
         jLabel11.setText("Schedule");
 
-        idCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "=", "<>", "<", ">", "<=", ">=" }));
+        idCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "=", "<>", "<", ">", "<=", ">=" }));
         idCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 idCBActionPerformed(evt);
             }
         });
 
+        ID_TF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ID_TFActionPerformed(evt);
+            }
+        });
         ID_TF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 ID_TFKeyReleased(evt);
             }
         });
 
-        code_CB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "OR", "AND" }));
+        code_CB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "OR", "AND" }));
         code_CB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 code_CBActionPerformed(evt);
@@ -154,6 +168,11 @@ public class subjects extends javax.swing.JFrame {
 
         jLabel13.setText("Starts");
 
+        Scode_TF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Scode_TFActionPerformed(evt);
+            }
+        });
         Scode_TF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 Scode_TFKeyReleased(evt);
@@ -162,12 +181,22 @@ public class subjects extends javax.swing.JFrame {
 
         jLabel14.setText("Ends");
 
+        Ecode_TF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Ecode_TFActionPerformed(evt);
+            }
+        });
         Ecode_TF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 Ecode_TFKeyReleased(evt);
             }
         });
 
+        Sdesc_TF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Sdesc_TFActionPerformed(evt);
+            }
+        });
         Sdesc_TF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 Sdesc_TFKeyReleased(evt);
@@ -176,20 +205,25 @@ public class subjects extends javax.swing.JFrame {
 
         jLabel16.setText("Starts");
 
-        desc_CB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "OR", "AND" }));
+        desc_CB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "OR", "AND" }));
         desc_CB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 desc_CBActionPerformed(evt);
             }
         });
 
-        units_CB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "OR", "AND" }));
+        units_CB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "OR", "AND" }));
         units_CB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 units_CBActionPerformed(evt);
             }
         });
 
+        Edesc_TF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Edesc_TFActionPerformed(evt);
+            }
+        });
         Edesc_TF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 Edesc_TFKeyReleased(evt);
@@ -198,48 +232,63 @@ public class subjects extends javax.swing.JFrame {
 
         jLabel15.setText("Ends");
 
-        sched_CB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "OR", "AND" }));
+        sched_CB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "OR", "AND" }));
         sched_CB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sched_CBActionPerformed(evt);
             }
         });
 
+        sched_TF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sched_TFActionPerformed(evt);
+            }
+        });
         sched_TF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 sched_TFKeyReleased(evt);
             }
         });
 
-        units_CB2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "=", "<>", "<", ">", "<=", ">=" }));
+        units_CB2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "=", "<>", "<", ">", "<=", ">=" }));
         units_CB2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 units_CB2ActionPerformed(evt);
             }
         });
 
-        Egender_TF1.addKeyListener(new java.awt.event.KeyAdapter() {
+        units_TF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                units_TFActionPerformed(evt);
+            }
+        });
+        units_TF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                Egender_TF1KeyReleased(evt);
+                units_TFKeyReleased(evt);
             }
         });
 
         jLabel12.setText("Enrolled");
 
-        enrolled_CB2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "=", "<>", "<", ">", "<=", ">=" }));
+        enrolled_CB2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "=", "<>", "<", ">", "<=", ">=" }));
         enrolled_CB2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 enrolled_CB2ActionPerformed(evt);
             }
         });
 
-        Egender_TF2.addKeyListener(new java.awt.event.KeyAdapter() {
+        enrolled_TF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                enrolled_TFActionPerformed(evt);
+            }
+        });
+        enrolled_TF.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                Egender_TF2KeyReleased(evt);
+                enrolled_TFKeyReleased(evt);
             }
         });
 
-        enrolled_CB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "OR", "AND" }));
+        enrolled_CB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "OR", "AND" }));
         enrolled_CB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 enrolled_CBActionPerformed(evt);
@@ -258,7 +307,7 @@ public class subjects extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(units_CB2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(Egender_TF1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(units_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(sched_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -271,7 +320,7 @@ public class subjects extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(enrolled_CB2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(Egender_TF2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(enrolled_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -343,14 +392,14 @@ public class subjects extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(units_CB2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Egender_TF1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(units_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
                 .addGap(18, 18, 18)
                 .addComponent(enrolled_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(enrolled_CB2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Egender_TF2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(enrolled_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -364,7 +413,7 @@ public class subjects extends javax.swing.JFrame {
 
         jLabel1.setText("Subject ID");
 
-        studentTable1.setModel(new javax.swing.table.DefaultTableModel(
+        subjectTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -372,12 +421,12 @@ public class subjects extends javax.swing.JFrame {
                 "Subject ID", "Subject Code", "Subject Desc.", "Subject Units", "Subject Sched", "Enrolled"
             }
         ));
-        studentTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+        subjectTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                studentTable1MouseClicked(evt);
+                subjectTableMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(studentTable1);
+        jScrollPane2.setViewportView(subjectTable);
 
         jLabel23.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
         jLabel23.setText("Class List");
@@ -474,13 +523,13 @@ public class subjects extends javax.swing.JFrame {
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         // TODO add your handling code here:
         try{
-            String query = "DELETE FROM students";
-            if (studentTable.getSelectedRowCount() > 0){
-                int idx = studentTable.getSelectedRow();
-                query += " WHERE student_id = " + studentTable.getValueAt(idx, 0).toString();
+            String query = "DELETE FROM subjects";
+            if (subjectTable.getSelectedRowCount() > 0){
+                int idx = subjectTable.getSelectedRow();
+                query += " WHERE subject_id = " + subjectTable.getValueAt(idx, 0).toString();
             }
             else{
-                query += " WHERE student_id in (select student_id from (" + finalQuery + ") as x)";
+                query += " WHERE subject_id in (SELECT subject_id from (" + finalQuery + ") as x)";
             }
             PreparedStatement st = InformationManagement.con.prepareStatement(query);
             st.executeUpdate();
@@ -495,37 +544,37 @@ public class subjects extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         try{
-            String query = "UPDATE students SET";
+            String query = "UPDATE subject SET";
             ArrayList<String> includes = new ArrayList<>();
 
             if (subjectID.getText().length() > 0){
-                includes.add(" student_id = " + subjectID.getText() + "'");
+                includes.add(" subject_id = " + subjectID.getText() + "'");
             }
 
             if (SubjectCode.getText().length() > 0){
-                includes.add(" student_name = '" + SubjectCode.getText() + "'");
+                includes.add(" subject_code = '" + SubjectCode.getText() + "'");
             }
 
             if (SubjectDesc.getText().length() > 0){
-                includes.add(" student_address = '" + SubjectDesc.getText() + "'");
+                includes.add(" subject_desc = '" + SubjectDesc.getText() + "'");
             }
 
             if (SubjectUnit.getText().length() > 0){
-                includes.add(" student_course = '" + SubjectUnit.getText() + "'");
+                includes.add(" subject_unit = '" + SubjectUnit.getText() + "'");
             }
 
             if (SubjectSched.getText().length() > 0){
-                includes.add(" student_gender = '" + SubjectSched.getText() + "'");
+                includes.add(" subject_sched = '" + SubjectSched.getText() + "'");
             }
 
             query += String.join(",", includes);
 
-            if (studentTable.getSelectedRowCount() > 0){
-                int idx = studentTable.getSelectedRow();
-                query +=  " WHERE student_id = " + studentTable.getValueAt(idx, 0).toString();
+            if (subjectTable.getSelectedRowCount() > 0){
+                int idx = subjectTable.getSelectedRow();
+                query +=  " WHERE subject_id = " + subjectTable.getValueAt(idx, 0).toString();
 
             }else{
-                query += " WHERE student_id in (select student_id from (" + finalQuery + ") as x)";
+                query += " WHERE subject_id in (select subject_id from (" + finalQuery + ") as x)";
             }
 
             PreparedStatement st = InformationManagement.con.prepareStatement(query);
@@ -539,15 +588,6 @@ public class subjects extends javax.swing.JFrame {
 
     private void studentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_studentTableMouseClicked
         // TODO add your handling code here:
-        int idx = studentTable.getSelectedRow();
-
-        subjectID.setText(studentTable.getValueAt(idx, 0).toString());
-        SubjectCode.setText(studentTable.getValueAt(idx, 1).toString());
-        SubjectDesc.setText(studentTable.getValueAt(idx, 2).toString());
-        SubjectUnit.setText(studentTable.getValueAt(idx, 3).toString());
-        SubjectSched.setText(studentTable.getValueAt(idx, 4).toString());
-        studentYear.setText(studentTable.getValueAt(idx, 5).toString());
-
     }//GEN-LAST:event_studentTableMouseClicked
 
     private void idCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idCBActionPerformed
@@ -607,16 +647,15 @@ public class subjects extends javax.swing.JFrame {
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
 
-        String query = "INSERT INTO students VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO subjects VALUES (?, ?, ?, ?, ?)";
         try{
             PreparedStatement st = InformationManagement.con.prepareStatement(query);
 
             st.setInt(1, Integer.parseInt(subjectID.getText()));
             st.setString(2, SubjectCode.getText());
             st.setString(3, SubjectDesc.getText());
-            st.setString(4, SubjectUnit.getText());
+            st.setInt(4, Integer.parseInt(SubjectUnit.getText()));
             st.setString(5, SubjectSched.getText());
-            st.setString(6, studentYear.getText());
 
             st.executeUpdate();
 
@@ -627,30 +666,208 @@ public class subjects extends javax.swing.JFrame {
         updateTable();
     }//GEN-LAST:event_saveBtnActionPerformed
 
-    private void studentTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_studentTable1MouseClicked
+    private void subjectTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subjectTableMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_studentTable1MouseClicked
+    }//GEN-LAST:event_subjectTableMouseClicked
 
     private void units_CB2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_units_CB2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_units_CB2ActionPerformed
 
-    private void Egender_TF1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Egender_TF1KeyReleased
+    private void units_TFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_units_TFKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_Egender_TF1KeyReleased
+    }//GEN-LAST:event_units_TFKeyReleased
 
     private void enrolled_CB2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enrolled_CB2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_enrolled_CB2ActionPerformed
 
-    private void Egender_TF2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Egender_TF2KeyReleased
+    private void enrolled_TFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_enrolled_TFKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_Egender_TF2KeyReleased
+    }//GEN-LAST:event_enrolled_TFKeyReleased
 
     private void enrolled_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enrolled_CBActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_enrolled_CBActionPerformed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        updateTable();
+    }//GEN-LAST:event_formWindowOpened
+
+    private void ID_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ID_TFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ID_TFActionPerformed
+
+    private void Scode_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Scode_TFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Scode_TFActionPerformed
+
+    private void Ecode_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Ecode_TFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Ecode_TFActionPerformed
+
+    private void Sdesc_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Sdesc_TFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Sdesc_TFActionPerformed
+
+    private void Edesc_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Edesc_TFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Edesc_TFActionPerformed
+
+    private void units_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_units_TFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_units_TFActionPerformed
+
+    private void enrolled_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enrolled_TFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_enrolled_TFActionPerformed
+
+    private void sched_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sched_TFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_sched_TFActionPerformed
+    public void updateTable(){
+        DefaultTableModel subjectTableModel = (DefaultTableModel) subjectTable.getModel();
+
+        subjectTableModel.setRowCount(0);
+        try{
+            ResultSet rsSubjectTable = InformationManagement.con.createStatement().executeQuery("SELECT * FROM subjects");
+            
+            while (rsSubjectTable.next()){
+                String idd = rsSubjectTable.getString("subject_id");
+                String cd = rsSubjectTable.getString("subject_code");
+                String ds = rsSubjectTable.getString("subject_desc");
+                String un = rsSubjectTable.getString("subject_units");
+                String sc = rsSubjectTable.getString("subject_sched");
+                String er = "0";
+                
+                subjectTableModel.addRow(new String[]{idd, cd, ds, un, sc, er});
+                
+            }
+  
+        }catch(Exception ex){
+            
+        }
+    }
+    
+    
+    
+    public void filter(){
+        DefaultTableModel subjectTableModel = (DefaultTableModel) subjectTable.getModel();
+        subjectTableModel.setRowCount(0);
+
+        
+        finalQuery = "SELECT * FROM subjects";
+        boolean first = true;
+        
+        String id = ID_TF.getText();
+        String Scode = Scode_TF.getText();
+        String Ecode = Ecode_TF.getText();
+        String Sdesc = Sdesc_TF.getText();
+        String Edesc = Edesc_TF.getText();
+        String units = units_TF.getText();
+        String enrolled = enrolled_TF.getText();
+        String sched = sched_TF.getText();
+        
+        ArrayList<String> codeArr = new ArrayList<>();
+        ArrayList<String> descArr = new ArrayList<>();
+        
+        
+        
+        if (id.length() > 0 || Scode.length() > 0 || Ecode.length() > 0 || Sdesc.length() > 0 || Edesc.length() > 0 || units.length() > 0 || enrolled.length() > 0 || sched.length() > 0){
+            
+            finalQuery += " WHERE";
+            
+            if (id.length() > 0){
+                finalQuery += " subject_id " + idCB.getSelectedItem() + " " + id;
+                first = false;
+            }
+            
+            if (units.length() > 0){
+                if (!first){
+                    finalQuery += " " + units_CB;
+                    first = false;
+                }
+                finalQuery += " subject_units" + units_CB2.getSelectedItem() + " " + units;
+            }
+            
+//            if (enrolled.length() > 0){
+//                if (!first){
+//                    finalQuery += " " + enrolled_CB;
+//                    first = false;
+//                }
+//                finalQuery += " subject"
+//            }
+            
+            //add elements to arraylist
+            if (Scode.length() > 0){
+                codeArr.add("subject_code LIKE '" + Scode + "%'");
+            }
+            
+            if (Ecode.length() > 0){
+                codeArr.add("subject_code LIKE '%" + Ecode + "'");
+            }
+            
+            if (Sdesc.length() > 0){
+                descArr.add("subject_desc LIKE '" + Sdesc + "%'");
+            }
+            
+            if (Edesc.length() > 0){
+                descArr.add("subject_desc LIKE '%" + Edesc + "'");
+            }
+           
+            
+            //add arraylist elements to finalQuery
+            if (codeArr.size() > 0){
+                if (!first){
+                    finalQuery += " " + code_CB.getSelectedItem().toString();
+                    first = false;
+                }
+                
+                finalQuery += " (" + String.join("AND ", codeArr) + ")";
+            }
+            
+            if (descArr.size() > 0){
+                if (!first){
+                    finalQuery +=  " " + desc_CB.getSelectedItem().toString();
+                    first = false;
+                }
+                
+                finalQuery += " (" + String.join("AND ",descArr) + ")";
+            }
+            
+            if (sched.length() > 0){
+                if (!first){
+                    finalQuery += " " + sched_CB.getSelectedItem().toString();
+                    first = false;
+                }
+                finalQuery += " subject_sched LIKE '%" + sched + "'";
+            }
+            
+            
+        }
+        
+        System.out.println(finalQuery);
+        
+        try{
+            ResultSet rsSubjectTable = InformationManagement.con.createStatement().executeQuery(finalQuery);
+            
+            while (rsSubjectTable.next()){
+                String idd = rsSubjectTable.getString("subject_id");
+                String cd = rsSubjectTable.getString("subject_code");
+                String ds = rsSubjectTable.getString("subject_desc");
+                String un = rsSubjectTable.getString("subject_units");
+                String sc = rsSubjectTable.getString("subject_sched");
+                String er = "0";
+                
+                subjectTableModel.addRow(new String[]{idd, cd, ds, un, sc, er});
+                
+            }
+
+            
+        }catch(Exception ex){
+            
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -689,8 +906,6 @@ public class subjects extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Ecode_TF;
     private javax.swing.JTextField Edesc_TF;
-    private javax.swing.JTextField Egender_TF1;
-    private javax.swing.JTextField Egender_TF2;
     private javax.swing.JTextField ID_TF;
     private javax.swing.JTextField Scode_TF;
     private javax.swing.JTextField Sdesc_TF;
@@ -703,6 +918,7 @@ public class subjects extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> desc_CB;
     private javax.swing.JComboBox<String> enrolled_CB;
     private javax.swing.JComboBox<String> enrolled_CB2;
+    private javax.swing.JTextField enrolled_TF;
     private javax.swing.JComboBox<String> idCB;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -727,10 +943,11 @@ public class subjects extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> sched_CB;
     private javax.swing.JTextField sched_TF;
     private javax.swing.JTable studentTable;
-    private javax.swing.JTable studentTable1;
     private javax.swing.JTextField subjectID;
+    private javax.swing.JTable subjectTable;
     private javax.swing.JComboBox<String> units_CB;
     private javax.swing.JComboBox<String> units_CB2;
+    private javax.swing.JTextField units_TF;
     private javax.swing.JButton updateBtn;
     // End of variables declaration//GEN-END:variables
 }

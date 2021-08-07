@@ -8,6 +8,9 @@
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="windowOpened" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowOpened"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -260,7 +263,7 @@
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="units_CB2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                          <Component id="Egender_TF1" min="-2" pref="87" max="-2" attributes="0"/>
+                          <Component id="units_TF" min="-2" pref="87" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="sched_CB" min="-2" max="-2" attributes="0"/>
@@ -275,7 +278,7 @@
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="enrolled_CB2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                          <Component id="Egender_TF2" min="-2" pref="87" max="-2" attributes="0"/>
+                          <Component id="enrolled_TF" min="-2" pref="87" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -363,7 +366,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="units_CB2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="Egender_TF1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="units_TF" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -371,7 +374,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="enrolled_CB2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="Egender_TF2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="enrolled_TF" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -433,6 +436,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="ID_TF">
           <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ID_TFActionPerformed"/>
             <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="ID_TFKeyReleased"/>
           </Events>
         </Component>
@@ -459,6 +463,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="Scode_TF">
           <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Scode_TFActionPerformed"/>
             <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="Scode_TFKeyReleased"/>
           </Events>
         </Component>
@@ -469,11 +474,13 @@
         </Component>
         <Component class="javax.swing.JTextField" name="Ecode_TF">
           <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Ecode_TFActionPerformed"/>
             <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="Ecode_TFKeyReleased"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="Sdesc_TF">
           <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Sdesc_TFActionPerformed"/>
             <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="Sdesc_TFKeyReleased"/>
           </Events>
         </Component>
@@ -516,6 +523,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="Edesc_TF">
           <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Edesc_TFActionPerformed"/>
             <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="Edesc_TFKeyReleased"/>
           </Events>
         </Component>
@@ -542,6 +550,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="sched_TF">
           <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="sched_TFActionPerformed"/>
             <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="sched_TFKeyReleased"/>
           </Events>
         </Component>
@@ -565,9 +574,10 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JTextField" name="Egender_TF1">
+        <Component class="javax.swing.JTextField" name="units_TF">
           <Events>
-            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="Egender_TF1KeyReleased"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="units_TFActionPerformed"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="units_TFKeyReleased"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel12">
@@ -595,9 +605,10 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JTextField" name="Egender_TF2">
+        <Component class="javax.swing.JTextField" name="enrolled_TF">
           <Events>
-            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="Egender_TF2KeyReleased"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="enrolled_TFActionPerformed"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="enrolled_TFKeyReleased"/>
           </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="enrolled_CB">
@@ -639,7 +650,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="studentTable1">
+        <Component class="javax.swing.JTable" name="subjectTable">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="6" rowCount="0">
@@ -690,7 +701,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="studentTable1MouseClicked"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="subjectTableMouseClicked"/>
           </Events>
         </Component>
       </SubComponents>
