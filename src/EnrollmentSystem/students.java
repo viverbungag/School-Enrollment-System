@@ -96,6 +96,8 @@ public class students extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         addSubjectBtn = new javax.swing.JButton();
         dropSubjectBtn = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel25 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -493,6 +495,26 @@ public class students extends javax.swing.JFrame {
                 .addContainerGap(55, Short.MAX_VALUE))
         );
 
+        jLabel25.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel25.setText("Student's Form");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jLabel25)
+                .addContainerGap(34, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel25)
+                .addContainerGap())
+        );
+
         jMenu1.setText("Window");
 
         jMenuItem1.setText("Subjects");
@@ -520,7 +542,7 @@ public class students extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -553,7 +575,10 @@ public class students extends javax.swing.JFrame {
                             .addComponent(updateBtn)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -569,56 +594,57 @@ public class students extends javax.swing.JFrame {
                         .addComponent(jLabel23)
                         .addGap(278, 278, 278)))
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(72, 72, 72)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(studentID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(studentName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(studentAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(studentCourse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(studentGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(studentYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(saveBtn)
-                .addGap(18, 18, 18)
-                .addComponent(deleteBtn)
-                .addGap(18, 18, 18)
-                .addComponent(updateBtn)
-                .addGap(56, 56, 56)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                         .addComponent(jLabel23)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel1)
+                                    .addComponent(studentID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel2)
+                                    .addComponent(studentName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel3)
+                                    .addComponent(studentAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel4)
+                                    .addComponent(studentCourse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel5)
+                                    .addComponent(studentGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel6)
+                                    .addComponent(studentYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(saveBtn)
+                                .addGap(18, 18, 18)
+                                .addComponent(deleteBtn)
+                                .addGap(18, 18, 18)
+                                .addComponent(updateBtn)
+                                .addGap(56, 56, 56)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -627,40 +653,62 @@ public class students extends javax.swing.JFrame {
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
         
-        String query = "INSERT INTO students VALUES (?, ?, ?, ?, ?, ?)";
-        try{
-            PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
-            
-            st.setInt(1, Integer.parseInt(studentID.getText()));
-            st.setString(2, studentName.getText());
-            st.setString(3, studentAddress.getText());
-            st.setString(4, studentCourse.getText());
-            st.setString(5, studentGender.getText());
-            st.setString(6, studentYear.getText());
-            
-            st.executeUpdate();
-            
-        }catch(Exception ex){
-            System.out.println(ex);
+        if (studentID.getText().length() > 0 && studentName.getText().length() > 0 && studentAddress.getText().length() > 0 && studentCourse.getText().length() > 0 && studentGender.getText().length() > 0 && studentYear.getText().length() > 0){
+            String query = "INSERT INTO students VALUES (?, ?, ?, ?, ?, ?)";
+            try{
+                ResultSet rs = EnrollmentSystem.con.createStatement().executeQuery("SELECT * FROM students WHERE student_id = '" + studentID.getText() + "'");
+                if (rs.next()){
+                    JOptionPane.showMessageDialog(this,"Student ID already exist! please choose another one", "Error", JOptionPane.ERROR_MESSAGE);
+                }else{
+                    PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
+
+                    st.setInt(1, Integer.parseInt(studentID.getText()));
+                    st.setString(2, studentName.getText());
+                    st.setString(3, studentAddress.getText());
+                    st.setString(4, studentCourse.getText());
+                    st.setString(5, studentGender.getText());
+                    st.setString(6, studentYear.getText());
+
+                    st.executeUpdate();
+                    JOptionPane.showMessageDialog(this,"Student Successfully Saved");
+                    updateTableStudents();
+                }
+                
+
+            }catch(Exception ex){
+                if (ex instanceof NumberFormatException){
+                    JOptionPane.showMessageDialog(this,"Please put numeric value in the ID");
+                }
+            }
+
+        }else{
+            JOptionPane.showMessageDialog(this,"Please fill up every field", "Student not saved!", JOptionPane.ERROR_MESSAGE);
         }
-        
-        updateTableStudents();
     }//GEN-LAST:event_saveBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         // TODO add your handling code here:
         try{
             String query = "DELETE FROM students";
-            if (studentTable.getSelectedRowCount() > 0){
+            if ((finalQuery.equals("SELECT * FROM students") || finalQuery.equals("")) && studentTable.getSelectedRowCount() == 0){
+                JOptionPane.showMessageDialog(this,"Please select a row to delete", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (studentTable.getSelectedRowCount() > 0){
                 int idx = studentTable.getSelectedRow();
                 query += " WHERE student_id = " + studentTable.getValueAt(idx, 0).toString();
+                PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
+                st.executeUpdate();
+                JOptionPane.showMessageDialog(this,"Student Successfully Deleted");
+                filter();
             }
             else{
                 query += " WHERE student_id in (select student_id from (" + finalQuery + ") as x)"; 
+                PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
+                st.executeUpdate();
+                JOptionPane.showMessageDialog(this,"Student Successfully Deleted");
+                filter();
             }
-            PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
-            st.executeUpdate();
-            filter();
+
         }catch(Exception ex){
             System.out.println(ex);
         }
@@ -680,49 +728,57 @@ public class students extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         try{
-            String query = "UPDATE students SET";
-            ArrayList<String> includes = new ArrayList<>();
+            ResultSet rs = EnrollmentSystem.con.createStatement().executeQuery("SELECT * FROM students WHERE student_id = '" + studentID.getText() + "'");
             
-            if (studentID.getText().length() > 0){
-                includes.add(" student_id = " + studentID.getText());
-            }
-            
-            if (studentName.getText().length() > 0){
-                includes.add(" student_name = '" + studentName.getText() + "'");
-            }
-            
-            if (studentAddress.getText().length() > 0){
-                includes.add(" student_address = '" + studentAddress.getText() + "'");
-            }
-            
-            if (studentCourse.getText().length() > 0){
-                includes.add(" student_course = '" + studentCourse.getText() + "'");
-            }
-            
-            if (studentGender.getText().length() > 0){
-                includes.add(" student_gender = '" + studentGender.getText() + "'");
-            }
-            
-            if (studentYear.getText().length() > 0){
-                includes.add(" student_year = '" + studentYear.getText() + "'");
-            }
-            
-            query += String.join(",", includes);
-            
-            
-            if (studentTable.getSelectedRowCount() > 0){
-                int idx = studentTable.getSelectedRow();
-                query +=  " WHERE student_id = " + studentTable.getValueAt(idx, 0).toString();
-                
+            if (rs.next() && (!studentID.getText().equals(studentTable.getValueAt(studentTable.getSelectedRow(), 0)))){
+                JOptionPane.showMessageDialog(this,"Student ID already exist! please choose another one", "Error", JOptionPane.ERROR_MESSAGE);
             }else{
-                query += " WHERE student_id in (select student_id from (" + finalQuery + ") as x)"; 
+                String query = "UPDATE students SET";
+                ArrayList<String> includes = new ArrayList<>();
+
+                if (studentID.getText().length() > 0){
+                    includes.add(" student_id = " + studentID.getText());
+                }
+
+                if (studentName.getText().length() > 0){
+                    includes.add(" student_name = '" + studentName.getText() + "'");
+                }
+
+                if (studentAddress.getText().length() > 0){
+                    includes.add(" student_address = '" + studentAddress.getText() + "'");
+                }
+
+                if (studentCourse.getText().length() > 0){
+                    includes.add(" student_course = '" + studentCourse.getText() + "'");
+                }
+
+                if (studentGender.getText().length() > 0){
+                    includes.add(" student_gender = '" + studentGender.getText() + "'");
+                }
+
+                if (studentYear.getText().length() > 0){
+                    includes.add(" student_year = '" + studentYear.getText() + "'");
+                }
+
+                query += String.join(",", includes);
+
+
+                if (studentTable.getSelectedRowCount() > 0){
+                    int idx = studentTable.getSelectedRow();
+                    query +=  " WHERE student_id = " + studentTable.getValueAt(idx, 0).toString();
+
+                }else{
+                    query += " WHERE student_id in (select student_id from (" + finalQuery + ") as x)"; 
+                }
+
+                PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);       
+                st.executeUpdate();
+                JOptionPane.showMessageDialog(this,"Student Successfully Updated");
+                filter();
+                
+                
             }
-            
-            PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);       
-            st.executeUpdate();
-            filter();
         }catch(Exception ex){
-                System.out.println(ex);
         }
         
 
@@ -841,48 +897,64 @@ public class students extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void addSubjectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSubjectBtnActionPerformed
-        int studentRow = studentTable.getSelectedRow();
-        int subjectRow = subjectsClass.subjectTable.getSelectedRow();
-        
-        String studentTableValue = studentTable.getValueAt(studentRow, 0).toString();
-        String subjectTableValue = subjectsClass.subjectTable.getValueAt(subjectRow, 0).toString();
-        
-        String query = "INSERT INTO enroll VALUES (?, ?)";
-        try{
-            PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
+        if (studentTable.getSelectedRowCount() > 0 && subjectsClass.subjectTable.getSelectedRowCount() > 0){    
+            int studentRow = studentTable.getSelectedRow();
+            int subjectRow = subjectsClass.subjectTable.getSelectedRow();
+
+            String studentTableValue = studentTable.getValueAt(studentRow, 0).toString();
+            String subjectTableValue = subjectsClass.subjectTable.getValueAt(subjectRow, 0).toString();
+
+            String query = "INSERT INTO enroll VALUES (?, ?)";
+            try{
+                PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
+
+                st.setString(1, studentTableValue);
+                st.setString(2, subjectTableValue);
+
+                st.executeUpdate();
+            }catch(Exception ex){
+
+            }
+            JOptionPane.showMessageDialog(this,"Subject Successfully added");   
+            updateEnrollTable();
+            subjectsClass.updateClassTable();
             
-            st.setString(1, studentTableValue);
-            st.setString(2, subjectTableValue);
             
-            st.executeUpdate();
-        }catch(Exception ex){
-            
+        }else{
+            JOptionPane.showMessageDialog(this,"Please select a row from Student and Subject table", "Error", JOptionPane.ERROR_MESSAGE);
         }
         
-        updateEnrollTable();
     }//GEN-LAST:event_addSubjectBtnActionPerformed
 
     private void dropSubjectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropSubjectBtnActionPerformed
         // TODO add your handling code here:
-        int idx = studentTable.getSelectedRow();
-        int idx2 = enrollTable.getSelectedRow();
         
-        
-        String query = "DELETE FROM enroll WHERE enroll.student_id = ? AND enroll.subject_id = ?";
-        try{
-            PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
-            st.setInt(1, Integer.parseInt(studentTable.getValueAt(idx, 0).toString()));
-            st.setInt(2, Integer.parseInt(enrollTable.getValueAt(idx2, 0).toString()));
+        if (enrollTable.getSelectedRowCount() > 0){
+            int idx = studentTable.getSelectedRow();
+            int idx2 = enrollTable.getSelectedRow();
+
+
+            String query = "DELETE FROM enroll WHERE enroll.student_id = ? AND enroll.subject_id = ?";
+            try{
+                PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
+                st.setInt(1, Integer.parseInt(studentTable.getValueAt(idx, 0).toString()));
+                st.setInt(2, Integer.parseInt(enrollTable.getValueAt(idx2, 0).toString()));
+
+                st.executeUpdate();
+
+
+            }catch(Exception ex){
+
+            }
+
+            JOptionPane.showMessageDialog(this,"Subject Successfully dropped");
+            updateEnrollTable();
+            subjectsClass.updateClassTable();
             
-            st.executeUpdate();
             
-            
-        }catch(Exception ex){
-            
+        }else{
+            JOptionPane.showMessageDialog(this,"Please select a row from the Enrolled Subjects table", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        
-        
-        updateEnrollTable();
     }//GEN-LAST:event_dropSubjectBtnActionPerformed
 
     
@@ -1158,6 +1230,7 @@ public class students extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1171,6 +1244,7 @@ public class students extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JComboBox<String> nameCB;

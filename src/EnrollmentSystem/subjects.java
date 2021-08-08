@@ -8,6 +8,7 @@ package EnrollmentSystem;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,7 +21,7 @@ public class subjects extends javax.swing.JFrame {
      * Creates new form subjects
      */
     
-    String finalQuery;
+    String finalQuery = "";
     public subjects() {
         initComponents();
     }
@@ -79,6 +80,8 @@ public class subjects extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         subjectTable = new javax.swing.JTable();
         jLabel23 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel25 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -431,37 +434,63 @@ public class subjects extends javax.swing.JFrame {
         jLabel23.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
         jLabel23.setText("Class List");
 
+        jLabel25.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel25.setText("Subject's Form");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jLabel25)
+                .addContainerGap(22, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel25)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(subjectID, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(SubjectCode, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
-                        .addComponent(SubjectDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(SubjectUnit, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(SubjectSched, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(saveBtn)
-                    .addComponent(deleteBtn)
-                    .addComponent(updateBtn))
-                .addGap(18, 18, 18)
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(subjectID, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(SubjectCode, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(SubjectDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(SubjectUnit, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(SubjectSched, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(saveBtn)
+                            .addComponent(deleteBtn)
+                            .addComponent(updateBtn))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 725, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
@@ -479,8 +508,14 @@ public class subjects extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel23))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel1)
                                     .addComponent(subjectID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -499,21 +534,15 @@ public class subjects extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel5)
-                                    .addComponent(SubjectSched, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(58, 58, 58)
-                                .addComponent(saveBtn))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel23)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
+                                    .addComponent(SubjectSched, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(saveBtn)
                                 .addGap(21, 21, 21)
                                 .addComponent(deleteBtn)
                                 .addGap(18, 18, 18)
-                                .addComponent(updateBtn)))))
+                                .addComponent(updateBtn)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
@@ -524,16 +553,27 @@ public class subjects extends javax.swing.JFrame {
         // TODO add your handling code here:
         try{
             String query = "DELETE FROM subjects";
-            if (subjectTable.getSelectedRowCount() > 0){
+            System.out.println(finalQuery);
+            System.out.println(subjectTable.getSelectedRowCount());
+            if ((finalQuery.equals("SELECT * FROM subjects") || finalQuery.equals("")) && subjectTable.getSelectedRowCount() == 0){
+                JOptionPane.showMessageDialog(this,"Please select a row to delete", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else if (subjectTable.getSelectedRowCount() > 0){
                 int idx = subjectTable.getSelectedRow();
                 query += " WHERE subject_id = " + subjectTable.getValueAt(idx, 0).toString();
+                PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
+                st.executeUpdate();
+                JOptionPane.showMessageDialog(this,"Subject Successfully Deleted");
+                filter();
             }
             else{
                 query += " WHERE subject_id in (SELECT subject_id from (" + finalQuery + ") as x)";
+                PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
+                st.executeUpdate();
+                JOptionPane.showMessageDialog(this,"Subject Successfully Deleted");
+                filter();
             }
-            PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
-            st.executeUpdate();
-            filter();
+
         }catch(Exception ex){
             System.out.println(ex);
         }
@@ -544,42 +584,48 @@ public class subjects extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         try{
-            String query = "UPDATE subjects SET";
-            ArrayList<String> includes = new ArrayList<>();
-
-            if (subjectID.getText().length() > 0){
-                includes.add(" subject_id = " + subjectID.getText());
-            }
-
-            if (SubjectCode.getText().length() > 0){
-                includes.add(" subject_code = '" + SubjectCode.getText() + "'");
-            }
-
-            if (SubjectDesc.getText().length() > 0){
-                includes.add(" subject_desc = '" + SubjectDesc.getText() + "'");
-            }
-
-            if (SubjectUnit.getText().length() > 0){
-                includes.add(" subject_units = " + SubjectUnit.getText());
-            }
-
-            if (SubjectSched.getText().length() > 0){
-                includes.add(" subject_sched = '" + SubjectSched.getText() + "'");
-            }
-
-            query += String.join(",", includes);
-
-            if (subjectTable.getSelectedRowCount() > 0){
-                int idx = subjectTable.getSelectedRow();
-                query +=  " WHERE subject_id = " + subjectTable.getValueAt(idx, 0).toString();
-
+            ResultSet rs = EnrollmentSystem.con.createStatement().executeQuery("SELECT * FROM subjects WHERE subject_id = '" + subjectID.getText() + "'");
+            if (rs.next() && (!subjectID.getText().equals(subjectTable.getValueAt(subjectTable.getSelectedRow(), 0)))){
+                JOptionPane.showMessageDialog(this,"Subject ID already exist! please choose another one", "Error", JOptionPane.ERROR_MESSAGE);
             }else{
-                query += " WHERE subject_id in (select subject_id from (" + finalQuery + ") as x)";
-            }
+                String query = "UPDATE subjects SET";
+                ArrayList<String> includes = new ArrayList<>();
 
-            PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
-            st.executeUpdate();
-            filter();
+                if (subjectID.getText().length() > 0){
+                    includes.add(" subject_id = " + subjectID.getText());
+                }
+
+                if (SubjectCode.getText().length() > 0){
+                    includes.add(" subject_code = '" + SubjectCode.getText() + "'");
+                }
+
+                if (SubjectDesc.getText().length() > 0){
+                    includes.add(" subject_desc = '" + SubjectDesc.getText() + "'");
+                }
+
+                if (SubjectUnit.getText().length() > 0){
+                    includes.add(" subject_units = " + SubjectUnit.getText());
+                }
+
+                if (SubjectSched.getText().length() > 0){
+                    includes.add(" subject_sched = '" + SubjectSched.getText() + "'");
+                }
+
+                query += String.join(",", includes);
+
+                if (subjectTable.getSelectedRowCount() > 0){
+                    int idx = subjectTable.getSelectedRow();
+                    query +=  " WHERE subject_id = " + subjectTable.getValueAt(idx, 0).toString();
+
+                }else{
+                    query += " WHERE subject_id in (select subject_id from (" + finalQuery + ") as x)";
+                }
+
+                PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
+                st.executeUpdate();
+                JOptionPane.showMessageDialog(this,"Subject Successfully Updated");
+                filter();
+            }
         }catch(Exception ex){
             System.out.println(ex);
         }
@@ -635,24 +681,33 @@ public class subjects extends javax.swing.JFrame {
     }//GEN-LAST:event_sched_TFKeyReleased
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
+        if (subjectID.getText().length() > 0 && SubjectCode.getText().length() > 0 && SubjectDesc.getText().length() > 0 && SubjectUnit.getText().length() > 0 && SubjectSched.getText().length() > 0){
+            String query = "INSERT INTO subjects VALUES (?, ?, ?, ?, ?)";
+            try{
+                ResultSet rs = EnrollmentSystem.con.createStatement().executeQuery("SELECT * FROM subjects WHERE subject_id = '" + subjectID.getText() + "'");
+                if (rs.next()){
+                    JOptionPane.showMessageDialog(this,"Subject ID already exist! please choose another one", "Error", JOptionPane.ERROR_MESSAGE);
+                }else{
+                    PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
+                    st.setInt(1, Integer.parseInt(subjectID.getText()));
+                    st.setString(2, SubjectCode.getText());
+                    st.setString(3, SubjectDesc.getText());
+                    st.setInt(4, Integer.parseInt(SubjectUnit.getText()));
+                    st.setString(5, SubjectSched.getText());
 
-        String query = "INSERT INTO subjects VALUES (?, ?, ?, ?, ?)";
-        try{
-            PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
+                    st.executeUpdate();
+                    JOptionPane.showMessageDialog(this,"Subject Successfully Saved");
+                    updateTableSubjects();
+                }
+            }catch(Exception ex){
+                if (ex instanceof NumberFormatException){
+                    JOptionPane.showMessageDialog(this,"Please put numeric value in the ID and Unit");
+                }
+            }
 
-            st.setInt(1, Integer.parseInt(subjectID.getText()));
-            st.setString(2, SubjectCode.getText());
-            st.setString(3, SubjectDesc.getText());
-            st.setInt(4, Integer.parseInt(SubjectUnit.getText()));
-            st.setString(5, SubjectSched.getText());
-
-            st.executeUpdate();
-
-        }catch(Exception ex){
-            System.out.println(ex);
+        }else{
+            JOptionPane.showMessageDialog(this,"Please fill up every field", "Subject not saved!", JOptionPane.ERROR_MESSAGE);
         }
-
-        updateTableSubjects();
     }//GEN-LAST:event_saveBtnActionPerformed
 
     private void subjectTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subjectTableMouseClicked
@@ -957,6 +1012,7 @@ public class subjects extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -964,6 +1020,7 @@ public class subjects extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton saveBtn;
