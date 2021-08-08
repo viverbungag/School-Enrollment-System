@@ -37,25 +37,6 @@ public class EnrollmentSystem {
         }
         students studentsClass = new students();
         studentsClass.setVisible(true);
-        
-        
-
-
-//        Menu index = new Menu();
-//        index.setVisible(true);
-        
-//        TransReport a = new TransReport();
-//        a.setVisible(true);
-        
-//        report b = new report();
-//        b.setVisible(true);
-//        
-//        public static final String user = "root";
-//        public static final String pass = "Naiskongmagpakalasingdahilwalakana14";
-        
-        
-
-        
     }
     
 }
