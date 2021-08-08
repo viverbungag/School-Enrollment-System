@@ -91,11 +91,11 @@ public class students extends javax.swing.JFrame {
         jLabel22 = new javax.swing.JLabel();
         Sylvl_TF = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        enrollTable = new javax.swing.JTable();
         jLabel23 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        addSubjectBtn = new javax.swing.JButton();
+        dropSubjectBtn = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -443,7 +443,7 @@ public class students extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        enrollTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -451,16 +451,26 @@ public class students extends javax.swing.JFrame {
                 "Subject ID", "Subject Code", "Subject Desc.", "Subject Units", "Subject Sched"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(enrollTable);
 
         jLabel23.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
         jLabel23.setText("Enrolled Subjects");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Enroll", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
 
-        jButton1.setText("Add Subject");
+        addSubjectBtn.setText("Add Subject");
+        addSubjectBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addSubjectBtnActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Drop Subject");
+        dropSubjectBtn.setText("Drop Subject");
+        dropSubjectBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dropSubjectBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -469,17 +479,17 @@ public class students extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(addSubjectBtn)
+                    .addComponent(dropSubjectBtn))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addComponent(jButton1)
+                .addComponent(addSubjectBtn)
                 .addGap(29, 29, 29)
-                .addComponent(jButton2)
+                .addComponent(dropSubjectBtn)
                 .addContainerGap(55, Short.MAX_VALUE))
         );
 
@@ -634,7 +644,7 @@ public class students extends javax.swing.JFrame {
             System.out.println(ex);
         }
         
-        updateTable();
+        updateTableStudents();
     }//GEN-LAST:event_saveBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
@@ -659,7 +669,7 @@ public class students extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        updateTable();
+        updateTableStudents();
         
         
         
@@ -730,16 +740,13 @@ public class students extends javax.swing.JFrame {
         studentCourse.setText(studentTable.getValueAt(idx, 3).toString());
         studentGender.setText(studentTable.getValueAt(idx, 4).toString());
         studentYear.setText(studentTable.getValueAt(idx, 5).toString());
-        
-        
-        
+        updateEnrollTable();
     }//GEN-LAST:event_studentTableMouseClicked
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
         subjectsClass.setVisible(true);
-        
-        
+        subjectsClass.setDefaultCloseOperation(subjectsClass.HIDE_ON_CLOSE);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void idCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idCBActionPerformed
@@ -830,9 +837,82 @@ public class students extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
         teachersClass.setVisible(true);
+        teachersClass.setDefaultCloseOperation(teachersClass.HIDE_ON_CLOSE);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void addSubjectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSubjectBtnActionPerformed
+        int studentRow = studentTable.getSelectedRow();
+        int subjectRow = subjectsClass.subjectTable.getSelectedRow();
+        
+        String studentTableValue = studentTable.getValueAt(studentRow, 0).toString();
+        String subjectTableValue = subjectsClass.subjectTable.getValueAt(subjectRow, 0).toString();
+        
+        String query = "INSERT INTO enroll VALUES (?, ?)";
+        try{
+            PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
+            
+            st.setString(1, studentTableValue);
+            st.setString(2, subjectTableValue);
+            
+            st.executeUpdate();
+        }catch(Exception ex){
+            
+        }
+        
+        updateEnrollTable();
+    }//GEN-LAST:event_addSubjectBtnActionPerformed
+
+    private void dropSubjectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropSubjectBtnActionPerformed
+        // TODO add your handling code here:
+        int idx = studentTable.getSelectedRow();
+        int idx2 = enrollTable.getSelectedRow();
+        
+        
+        String query = "DELETE FROM enroll WHERE enroll.student_id = ? AND enroll.subject_id = ?";
+        try{
+            PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
+            st.setInt(1, Integer.parseInt(studentTable.getValueAt(idx, 0).toString()));
+            st.setInt(2, Integer.parseInt(enrollTable.getValueAt(idx2, 0).toString()));
+            
+            st.executeUpdate();
+            
+            
+        }catch(Exception ex){
+            
+        }
+        
+        
+        updateEnrollTable();
+    }//GEN-LAST:event_dropSubjectBtnActionPerformed
+
     
-    public void updateTable(){
+    public void updateEnrollTable(){
+        
+        int idx = studentTable.getSelectedRow();
+        DefaultTableModel enrollTableModel = (DefaultTableModel) enrollTable.getModel();
+        enrollTableModel.setRowCount(0);
+        
+        try{
+            ResultSet rsEnrolltTable = EnrollmentSystem.con.createStatement().executeQuery(
+                    "SELECT subjects.subject_id, subject_code, subject_desc, subject_units, subject_sched "
+                    + "FROM students, enroll, subjects "
+                    + "WHERE students.student_id = enroll.student_id and enroll.subject_id = subjects.subject_id and students.student_id = " + studentTable.getValueAt(idx, 0));
+            
+            while (rsEnrolltTable.next()){
+                String id = rsEnrolltTable.getString("subject_id");
+                String cd = rsEnrolltTable.getString("subject_code");
+                String dc = rsEnrolltTable.getString("subject_desc");
+                String un = rsEnrolltTable.getString("subject_units");
+                String sc = rsEnrolltTable.getString("subject_sched");      
+                
+                enrollTableModel.addRow(new String[]{id, cd, dc, un, sc});               
+            } 
+        }catch(Exception ex){
+            
+        }
+    }
+    
+    public void updateTableStudents(){
         
         DefaultTableModel studentTableModel = (DefaultTableModel) studentTable.getModel();
 
@@ -1054,13 +1134,14 @@ public class students extends javax.swing.JFrame {
     private javax.swing.JTextField Sgender_TF;
     private javax.swing.JTextField Sname_TF;
     private javax.swing.JTextField Sylvl_TF;
+    private javax.swing.JButton addSubjectBtn;
     private javax.swing.JComboBox<String> addressCB;
     private javax.swing.JComboBox<String> courseCB;
     private javax.swing.JButton deleteBtn;
+    private javax.swing.JButton dropSubjectBtn;
+    private javax.swing.JTable enrollTable;
     private javax.swing.JComboBox<String> genderCB;
     private javax.swing.JComboBox<String> idCB;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1092,7 +1173,6 @@ public class students extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JComboBox<String> nameCB;
     private javax.swing.JButton saveBtn;
     private javax.swing.JTextField studentAddress;

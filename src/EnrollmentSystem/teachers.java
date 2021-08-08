@@ -85,8 +85,8 @@ public class teachers extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         teacherStatus = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        addTeacherSubjectBtn = new javax.swing.JButton();
+        dropTeacherSubjectBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -460,6 +460,9 @@ public class teachers extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 teacherTableMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                teacherTableMouseEntered(evt);
+            }
         });
         jScrollPane2.setViewportView(teacherTable);
 
@@ -471,9 +474,19 @@ public class teachers extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Assign", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
 
-        jButton1.setText("Add Subject");
+        addTeacherSubjectBtn.setText("Add Subject");
+        addTeacherSubjectBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addTeacherSubjectBtnActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Drop Subject");
+        dropTeacherSubjectBtn.setText("Drop Subject");
+        dropTeacherSubjectBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dropTeacherSubjectBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -482,17 +495,17 @@ public class teachers extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(addTeacherSubjectBtn)
+                    .addComponent(dropTeacherSubjectBtn))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addComponent(jButton1)
+                .addComponent(addTeacherSubjectBtn)
                 .addGap(29, 29, 29)
-                .addComponent(jButton2)
+                .addComponent(dropTeacherSubjectBtn)
                 .addContainerGap(55, Short.MAX_VALUE))
         );
 
@@ -625,7 +638,7 @@ public class teachers extends javax.swing.JFrame {
             System.out.println(ex);
         }
 
-        updateTable();
+        updateTableTeachers();
     }//GEN-LAST:event_saveBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
@@ -750,6 +763,8 @@ public class teachers extends javax.swing.JFrame {
         teacherAddress.setText(teacherTable.getValueAt(idx, 3).toString());
         teacherContact.setText(teacherTable.getValueAt(idx, 4).toString());
         teacherStatus.setText(teacherTable.getValueAt(idx, 5).toString());
+        
+        updateTeacherSubjectsTable();
     }//GEN-LAST:event_teacherTableMouseClicked
 
     private void Saddress_TFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Saddress_TFKeyReleased
@@ -817,10 +832,84 @@ public class teachers extends javax.swing.JFrame {
     }//GEN-LAST:event_status_TFActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        updateTable();
+        updateTableTeachers();
     }//GEN-LAST:event_formWindowOpened
+
+    private void addTeacherSubjectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTeacherSubjectBtnActionPerformed
+        int teacherRow = teacherTable.getSelectedRow();
+        int subjectRow = subjects.subjectTable.getSelectedRow();
+        
+        String teacherTableValue = teacherTable.getValueAt(teacherRow, 0).toString();
+        String subjectTableValue = subjects.subjectTable.getValueAt(subjectRow, 0).toString();
+        
+        String query = "INSERT INTO assign VALUES (?, ?)";
+        try{
+            PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
+            
+            st.setString(1, teacherTableValue);
+            st.setString(2, subjectTableValue);
+            
+            st.executeUpdate();
+        }catch(Exception ex){
+            
+        }
+        
+        
+        updateTeacherSubjectsTable();
+    }//GEN-LAST:event_addTeacherSubjectBtnActionPerformed
+
+    private void teacherTableMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_teacherTableMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_teacherTableMouseEntered
+
+    private void dropTeacherSubjectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropTeacherSubjectBtnActionPerformed
+        int idx = teacherTable.getSelectedRow();
+        int idx2 = teacherSubjectsTable.getSelectedRow();
+        
+        
+        String query = "DELETE FROM assign WHERE assign.teacher_id = ? AND assign.subject_id = ?";
+        try{
+            PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
+            st.setInt(1, Integer.parseInt(teacherTable.getValueAt(idx, 0).toString()));
+            st.setInt(2, Integer.parseInt(teacherSubjectsTable.getValueAt(idx2, 0).toString()));
+            
+            st.executeUpdate();
+            
+            
+        }catch(Exception ex){
+            
+        }
+        updateTeacherSubjectsTable();
+    }//GEN-LAST:event_dropTeacherSubjectBtnActionPerformed
     
-    public void updateTable(){
+    public void updateTeacherSubjectsTable(){
+        
+        int idx = teacherTable.getSelectedRow();
+        DefaultTableModel teacherSubjectsTableModel = (DefaultTableModel) teacherSubjectsTable.getModel();
+        teacherSubjectsTableModel.setRowCount(0);
+        
+        try{
+            ResultSet rsAssigntTable = EnrollmentSystem.con.createStatement().executeQuery(
+                    "SELECT subjects.subject_id, subject_code, subject_desc, subject_units, subject_sched "
+                    + "FROM teachers, assign, subjects "
+                    + "WHERE teachers.teacher_id = assign.teacher_id and assign.subject_id = subjects.subject_id and teachers.teacher_id = " + teacherTable.getValueAt(idx, 0));
+            
+            while (rsAssigntTable.next()){
+                String id = rsAssigntTable.getString("subject_id");
+                String cd = rsAssigntTable.getString("subject_code");
+                String dc = rsAssigntTable.getString("subject_desc");
+                String un = rsAssigntTable.getString("subject_units");
+                String sc = rsAssigntTable.getString("subject_sched");      
+                
+                teacherSubjectsTableModel.addRow(new String[]{id, cd, dc, un, sc});               
+            } 
+        }catch(Exception ex){
+            
+        }
+    }
+    
+    
+    public void updateTableTeachers(){
         
         DefaultTableModel studentTableModel = (DefaultTableModel) teacherTable.getModel();
 
@@ -1032,13 +1121,13 @@ public class teachers extends javax.swing.JFrame {
     private javax.swing.JTextField Scontact_TF;
     private javax.swing.JTextField Sdepartment_TF;
     private javax.swing.JTextField Sname_TF;
+    private javax.swing.JButton addTeacherSubjectBtn;
     private javax.swing.JComboBox<String> address_CB;
     private javax.swing.JComboBox<String> contact_CB;
     private javax.swing.JButton deleteBtn;
     private javax.swing.JComboBox<String> department_CB;
+    private javax.swing.JButton dropTeacherSubjectBtn;
     private javax.swing.JComboBox<String> id_CB;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;

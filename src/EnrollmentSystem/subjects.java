@@ -652,7 +652,7 @@ public class subjects extends javax.swing.JFrame {
             System.out.println(ex);
         }
 
-        updateTable();
+        updateTableSubjects();
     }//GEN-LAST:event_saveBtnActionPerformed
 
     private void subjectTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subjectTableMouseClicked
@@ -662,6 +662,8 @@ public class subjects extends javax.swing.JFrame {
         SubjectDesc.setText(subjectTable.getValueAt(idx, 2).toString());
         SubjectUnit.setText(subjectTable.getValueAt(idx, 3).toString());
         SubjectSched.setText(subjectTable.getValueAt(idx, 4).toString());
+        
+        updateClassTable();
     }//GEN-LAST:event_subjectTableMouseClicked
 
     private void units_CB2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_units_CB2ActionPerformed
@@ -685,7 +687,7 @@ public class subjects extends javax.swing.JFrame {
     }//GEN-LAST:event_enrolled_CBActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        updateTable();
+        updateTableSubjects();
     }//GEN-LAST:event_formWindowOpened
 
     private void ID_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ID_TFActionPerformed
@@ -720,7 +722,36 @@ public class subjects extends javax.swing.JFrame {
         // TODO add your handling code here:
         filter();
     }//GEN-LAST:event_sched_TFActionPerformed
-    public void updateTable(){
+    
+    public void updateClassTable(){
+        
+        int idx = subjectTable.getSelectedRow();
+        DefaultTableModel classTableModel = (DefaultTableModel) classTable.getModel();
+        classTableModel.setRowCount(0);
+        
+        try{
+            ResultSet rsClassTable = EnrollmentSystem.con.createStatement().executeQuery(
+                    "SELECT students.student_id, student_name, student_address, student_course, student_gender, student_year "
+                    + "FROM students, enroll, subjects "
+                    + "WHERE students.student_id = enroll.student_id and enroll.subject_id = subjects.subject_id and subjects.subject_id = " + subjectTable.getValueAt(idx, 0));
+            
+            while (rsClassTable.next()){
+                String id = rsClassTable.getString("student_id");
+                String nm = rsClassTable.getString("student_name");
+                String cr = rsClassTable.getString("student_course");
+                String gd = rsClassTable.getString("student_gender");
+                String yr = rsClassTable.getString("student_year");      
+                
+                classTableModel.addRow(new String[]{id, nm, cr, gd, yr});               
+            } 
+        }catch(Exception ex){
+            
+        }
+    }
+    
+    
+    
+    public void updateTableSubjects(){
         DefaultTableModel subjectTableModel = (DefaultTableModel) subjectTable.getModel();
 
         subjectTableModel.setRowCount(0);
@@ -939,7 +970,7 @@ public class subjects extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> sched_CB;
     private javax.swing.JTextField sched_TF;
     private javax.swing.JTextField subjectID;
-    private javax.swing.JTable subjectTable;
+    public static javax.swing.JTable subjectTable;
     private javax.swing.JComboBox<String> units_CB;
     private javax.swing.JComboBox<String> units_CB2;
     private javax.swing.JTextField units_TF;
