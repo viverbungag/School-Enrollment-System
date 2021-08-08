@@ -638,7 +638,7 @@ public class teachers extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(71, 71, 71)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();
@@ -972,16 +972,22 @@ public class teachers extends javax.swing.JFrame {
         studentTableModel.setRowCount(0);
         try{
             ResultSet rsTeacherTable = EnrollmentSystem.con.createStatement().executeQuery("SELECT * FROM teachers");
+            ResultSet rsAssigned = EnrollmentSystem.con.createStatement().executeQuery("SELECT teachers.teacher_id AS id, "
+                    + "(SELECT COUNT(*) FROM teachers, assign, subjects "
+                    + "WHERE teachers.teacher_id = assign.teacher_id and assign.subject_id = subjects.subject_id and assign.teacher_id = id) "
+                    + "AS teacherSubjects FROM teachers");
             
             while (rsTeacherTable.next()){
+                rsAssigned.next();
                 String idd = rsTeacherTable.getString("teacher_id");
                 String nm = rsTeacherTable.getString("teacher_name");
                 String dp = rsTeacherTable.getString("teacher_department");
                 String ad = rsTeacherTable.getString("teacher_address");
                 String ct = rsTeacherTable.getString("teacher_contact");
                 String st = rsTeacherTable.getString("teacher_status");
+                String ts = rsAssigned.getString("teacherSubjects");
                 
-                studentTableModel.addRow(new String[]{idd, nm, dp, ad, ct, st});
+                studentTableModel.addRow(new String[]{idd, nm, dp, ad, ct, st, ts});
                 
             }
   
@@ -996,7 +1002,7 @@ public class teachers extends javax.swing.JFrame {
         studentTableModel.setRowCount(0);
 
         
-        finalQuery = "SELECT * FROM teachers";
+        finalQuery = "";
         boolean first = true;
         
         String id = ID_TF.getText();
@@ -1112,18 +1118,28 @@ public class teachers extends javax.swing.JFrame {
         
         System.out.println(finalQuery);
         
+        String filterQuery = finalQuery;
+        
+        finalQuery = "SELECT * FROM teachers" + finalQuery;
+        
         try{
             ResultSet rsTeacherTable = EnrollmentSystem.con.createStatement().executeQuery(finalQuery);
+            ResultSet rsAssigned = EnrollmentSystem.con.createStatement().executeQuery("SELECT teachers.teacher_id AS id, "
+                    + "(SELECT COUNT(*) FROM teachers, assign, subjects "
+                    + "WHERE teachers.teacher_id = assign.teacher_id and assign.subject_id = subjects.subject_id and assign.teacher_id = id) "
+                    + "AS teacherSubjects FROM teachers " + filterQuery);
             
             while (rsTeacherTable.next()){
+                rsAssigned.next();
                 String idd = rsTeacherTable.getString("teacher_id");
                 String nm = rsTeacherTable.getString("teacher_name");
                 String dp = rsTeacherTable.getString("teacher_department");
                 String ad = rsTeacherTable.getString("teacher_address");
                 String ct = rsTeacherTable.getString("teacher_contact");
                 String st = rsTeacherTable.getString("teacher_status");
+                String ts = rsAssigned.getString("teacherSubjects");
                 
-                studentTableModel.addRow(new String[]{idd, nm, dp, ad, ct, st});
+                studentTableModel.addRow(new String[]{idd, nm, dp, ad, ct, st, ts});
                 
             }
 

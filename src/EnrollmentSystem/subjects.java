@@ -69,10 +69,6 @@ public class subjects extends javax.swing.JFrame {
         sched_TF = new javax.swing.JTextField();
         units_CB2 = new javax.swing.JComboBox<String>();
         units_TF = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
-        enrolled_CB2 = new javax.swing.JComboBox<String>();
-        enrolled_TF = new javax.swing.JTextField();
-        enrolled_CB = new javax.swing.JComboBox<String>();
         jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         SubjectUnit = new javax.swing.JTextField();
@@ -271,33 +267,6 @@ public class subjects extends javax.swing.JFrame {
             }
         });
 
-        jLabel12.setText("Enrolled");
-
-        enrolled_CB2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "=", "<>", "<", ">", "<=", ">=" }));
-        enrolled_CB2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enrolled_CB2ActionPerformed(evt);
-            }
-        });
-
-        enrolled_TF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enrolled_TFActionPerformed(evt);
-            }
-        });
-        enrolled_TF.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                enrolled_TFKeyReleased(evt);
-            }
-        });
-
-        enrolled_CB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "OR", "AND" }));
-        enrolled_CB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enrolled_CBActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -306,24 +275,12 @@ public class subjects extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(units_CB2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(units_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(sched_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel11)
                         .addGap(18, 18, 18)
                         .addComponent(sched_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(enrolled_CB2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(enrolled_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -357,10 +314,15 @@ public class subjects extends javax.swing.JFrame {
                                 .addComponent(jLabel15)
                                 .addGap(18, 18, 18)
                                 .addComponent(Edesc_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(units_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(enrolled_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                            .addComponent(units_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(units_CB2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(units_TF, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -398,18 +360,11 @@ public class subjects extends javax.swing.JFrame {
                     .addComponent(units_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
                 .addGap(18, 18, 18)
-                .addComponent(enrolled_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(enrolled_CB2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(enrolled_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12))
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(sched_CB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sched_TF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel4.setText("Subject Unit");
@@ -492,13 +447,15 @@ public class subjects extends javax.swing.JFrame {
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 725, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 732, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(315, 315, 315)
-                        .addComponent(jLabel23))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 732, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 725, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(315, 315, 315)
+                                .addComponent(jLabel23)))
+                        .addGap(25, 25, 25)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -506,43 +463,42 @@ public class subjects extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel23))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel1)
-                                    .addComponent(subjectID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel2)
-                                    .addComponent(SubjectCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel3)
-                                    .addComponent(SubjectDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel4)
-                                    .addComponent(SubjectUnit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel5)
-                                    .addComponent(SubjectSched, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(saveBtn)
-                                .addGap(21, 21, 21)
-                                .addComponent(deleteBtn)
-                                .addGap(18, 18, 18)
-                                .addComponent(updateBtn)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel23))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(subjectID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(SubjectCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(SubjectDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(SubjectUnit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(SubjectSched, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(saveBtn)
+                        .addGap(21, 21, 21)
+                        .addComponent(deleteBtn)
+                        .addGap(18, 18, 18)
+                        .addComponent(updateBtn)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
@@ -729,18 +685,6 @@ public class subjects extends javax.swing.JFrame {
         filter();
     }//GEN-LAST:event_units_TFKeyReleased
 
-    private void enrolled_CB2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enrolled_CB2ActionPerformed
-        filter();
-    }//GEN-LAST:event_enrolled_CB2ActionPerformed
-
-    private void enrolled_TFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_enrolled_TFKeyReleased
-        filter();
-    }//GEN-LAST:event_enrolled_TFKeyReleased
-
-    private void enrolled_CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enrolled_CBActionPerformed
-        filter();
-    }//GEN-LAST:event_enrolled_CBActionPerformed
-
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         updateTableSubjects();
     }//GEN-LAST:event_formWindowOpened
@@ -769,10 +713,6 @@ public class subjects extends javax.swing.JFrame {
         filter();
     }//GEN-LAST:event_units_TFActionPerformed
 
-    private void enrolled_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enrolled_TFActionPerformed
-        filter();
-    }//GEN-LAST:event_enrolled_TFActionPerformed
-
     private void sched_TFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sched_TFActionPerformed
         // TODO add your handling code here:
         filter();
@@ -793,11 +733,12 @@ public class subjects extends javax.swing.JFrame {
             while (rsClassTable.next()){
                 String id = rsClassTable.getString("student_id");
                 String nm = rsClassTable.getString("student_name");
+                String ad = rsClassTable.getString("student_address");
                 String cr = rsClassTable.getString("student_course");
                 String gd = rsClassTable.getString("student_gender");
                 String yr = rsClassTable.getString("student_year");      
                 
-                classTableModel.addRow(new String[]{id, nm, cr, gd, yr});               
+                classTableModel.addRow(new String[]{id, nm, ad, cr, gd, yr});               
             } 
         }catch(Exception ex){
             
@@ -812,14 +753,19 @@ public class subjects extends javax.swing.JFrame {
         subjectTableModel.setRowCount(0);
         try{
             ResultSet rsSubjectTable = EnrollmentSystem.con.createStatement().executeQuery("SELECT * FROM subjects");
+            ResultSet rsEnrolled = EnrollmentSystem.con.createStatement().executeQuery("SELECT subjects.subject_id AS id, "
+                    + "(SELECT COUNT(*) FROM students, enroll, subjects "
+                    + "WHERE students.student_id = enroll.student_id and enroll.subject_id = subjects.subject_id and enroll.subject_id = id) "
+                    + "AS enrolled FROM subjects");
             
             while (rsSubjectTable.next()){
+                rsEnrolled.next();
                 String idd = rsSubjectTable.getString("subject_id");
                 String cd = rsSubjectTable.getString("subject_code");
                 String ds = rsSubjectTable.getString("subject_desc");
                 String un = rsSubjectTable.getString("subject_units");
                 String sc = rsSubjectTable.getString("subject_sched");
-                String er = "0";
+                String er = rsEnrolled.getString("enrolled");
                 
                 subjectTableModel.addRow(new String[]{idd, cd, ds, un, sc, er});
                 
@@ -837,7 +783,7 @@ public class subjects extends javax.swing.JFrame {
         subjectTableModel.setRowCount(0);
 
         
-        finalQuery = "SELECT * FROM subjects";
+        finalQuery = "";
         boolean first = true;
         
         String id = ID_TF.getText();
@@ -846,7 +792,7 @@ public class subjects extends javax.swing.JFrame {
         String Sdesc = Sdesc_TF.getText();
         String Edesc = Edesc_TF.getText();
         String units = units_TF.getText();
-        String enrolled = enrolled_TF.getText();
+//        String enrolled = enrolled_TF.getText();
         String sched = sched_TF.getText();
         
         ArrayList<String> codeArr = new ArrayList<>();
@@ -854,7 +800,7 @@ public class subjects extends javax.swing.JFrame {
         
         
         
-        if (id.length() > 0 || Scode.length() > 0 || Ecode.length() > 0 || Sdesc.length() > 0 || Edesc.length() > 0 || units.length() > 0 || enrolled.length() > 0 || sched.length() > 0){
+        if (id.length() > 0 || Scode.length() > 0 || Ecode.length() > 0 || Sdesc.length() > 0 || Edesc.length() > 0 || units.length() > 0 || sched.length() > 0){
             
             finalQuery += " WHERE";
             
@@ -927,18 +873,25 @@ public class subjects extends javax.swing.JFrame {
             
         }
         
-        System.out.println(finalQuery);
+//        System.out.println(finalQuery);
+        String filterQuery = finalQuery;
+        finalQuery = "SELECT * FROM subjects" + finalQuery;
         
         try{
             ResultSet rsSubjectTable = EnrollmentSystem.con.createStatement().executeQuery(finalQuery);
+            ResultSet rsEnrolled = EnrollmentSystem.con.createStatement().executeQuery("SELECT subjects.subject_id AS id, "
+                    + "(SELECT COUNT(*) FROM students, enroll, subjects "
+                    + "WHERE students.student_id = enroll.student_id and enroll.subject_id = subjects.subject_id and enroll.subject_id = id) "
+                    + "AS enrolled FROM subjects " + filterQuery);
             
             while (rsSubjectTable.next()){
+                rsEnrolled.next();
                 String idd = rsSubjectTable.getString("subject_id");
                 String cd = rsSubjectTable.getString("subject_code");
                 String ds = rsSubjectTable.getString("subject_desc");
                 String un = rsSubjectTable.getString("subject_units");
                 String sc = rsSubjectTable.getString("subject_sched");
-                String er = "0";
+                String er = rsEnrolled.getString("enrolled");
                 
                 subjectTableModel.addRow(new String[]{idd, cd, ds, un, sc, er});
                 
@@ -998,14 +951,10 @@ public class subjects extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> code_CB;
     private javax.swing.JButton deleteBtn;
     private javax.swing.JComboBox<String> desc_CB;
-    private javax.swing.JComboBox<String> enrolled_CB;
-    private javax.swing.JComboBox<String> enrolled_CB2;
-    private javax.swing.JTextField enrolled_TF;
     private javax.swing.JComboBox<String> idCB;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;

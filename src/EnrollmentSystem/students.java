@@ -142,7 +142,7 @@ public class students extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Name", "Address", "Course", "Gender", "Year"
+                "ID", "Name", "Address", "Course", "Gender", "Year", "Units"
             }
         ));
         studentTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -918,6 +918,7 @@ public class students extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"Subject Successfully added");   
             updateEnrollTable();
             subjectsClass.updateClassTable();
+            subjectsClass.updateTableSubjects();
             
             
         }else{
@@ -950,6 +951,7 @@ public class students extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"Subject Successfully dropped");
             updateEnrollTable();
             subjectsClass.updateClassTable();
+            subjectsClass.updateTableSubjects();
             
             
         }else{
@@ -991,16 +993,24 @@ public class students extends javax.swing.JFrame {
         studentTableModel.setRowCount(0);
         try{
             ResultSet rsStudentTable = EnrollmentSystem.con.createStatement().executeQuery("SELECT * FROM students");
+            ResultSet rsUnit = EnrollmentSystem.con.createStatement().executeQuery("SELECT students.student_id AS id, "
+                    + "(SELECT SUM(subject_units) FROM students, enroll, subjects "
+                    + "WHERE students.student_id = enroll.student_id and enroll.subject_id = subjects.subject_id and enroll.student_id = id) "
+                    + "AS units FROM students");
             
             while (rsStudentTable.next()){
+                rsUnit.next();
                 String id = rsStudentTable.getString("student_id");
                 String nm = rsStudentTable.getString("student_name");
                 String ad = rsStudentTable.getString("student_address");
                 String cr = rsStudentTable.getString("student_course");
                 String gd = rsStudentTable.getString("student_gender");
                 String sy = rsStudentTable.getString("student_year");
+                String ct = rsUnit.getString("units");
                 
-                studentTableModel.addRow(new String[]{id, nm, ad, cr, gd, sy});
+//                
+                
+                studentTableModel.addRow(new String[]{id, nm, ad, cr, gd, sy, ct});
                 
             }
   
@@ -1015,7 +1025,7 @@ public class students extends javax.swing.JFrame {
         studentTableModel.setRowCount(0);
 
         
-        finalQuery = "SELECT * FROM students";
+        finalQuery = "";
         boolean first = true;
         
         String id = ID_TF.getText();
@@ -1136,20 +1146,33 @@ public class students extends javax.swing.JFrame {
             
         }
         
-        System.out.println(finalQuery);
+        String filterQuery = finalQuery;
+        
+        finalQuery = "SELECT * FROM students " + finalQuery;
+        
+//        System.out.println(finalQuery);
         
         try{
+            String unitQuery = "SELECT students.student_id AS id, "
+                    + "(SELECT SUM(subject_units) FROM students, enroll, subjects "
+                    + "WHERE students.student_id = enroll.student_id and enroll.subject_id = subjects.subject_id and enroll.student_id = id) "
+                    + "AS units FROM students " + filterQuery;
+            
             ResultSet rsStudentTable = EnrollmentSystem.con.createStatement().executeQuery(finalQuery);
+            ResultSet rsUnit = EnrollmentSystem.con.createStatement().executeQuery(unitQuery);
+            
             
             while (rsStudentTable.next()){
+                rsUnit.next();
                 String idd = rsStudentTable.getString("student_id");
                 String nm = rsStudentTable.getString("student_name");
                 String ad = rsStudentTable.getString("student_address");
                 String cr = rsStudentTable.getString("student_course");
                 String gd = rsStudentTable.getString("student_gender");
                 String sy = rsStudentTable.getString("student_year");
+                String ut = rsUnit.getString("units");
                 
-                studentTableModel.addRow(new String[]{idd, nm, ad, cr, gd, sy});
+                studentTableModel.addRow(new String[]{idd, nm, ad, cr, gd, sy, ut});
                 
             }
 
