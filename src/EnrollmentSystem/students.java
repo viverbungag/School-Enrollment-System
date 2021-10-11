@@ -1349,6 +1349,7 @@ public class students extends javax.swing.JFrame {
             con2.createStatement().executeUpdate(createInvoiceTable);
             con2.createStatement().executeUpdate(createGradesTable);
             
+            
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(this,"Database already exists", "Error", JOptionPane.ERROR_MESSAGE);
         }
