@@ -13,7 +13,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Viver
+ * @author
  */
 public class subjects extends javax.swing.JFrame {
 
