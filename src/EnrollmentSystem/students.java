@@ -5,15 +5,21 @@
  */
 package EnrollmentSystem;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Viver
+ * @author
  */
 public class students extends javax.swing.JFrame {
 
@@ -102,6 +108,11 @@ public class students extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        databaseMenu = new javax.swing.JMenu();
+        firstSemMenu = new javax.swing.JMenuItem();
+        secondSemMenu = new javax.swing.JMenuItem();
+        summerMenu = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -535,6 +546,38 @@ public class students extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        jMenu2.setText("New");
+
+        databaseMenu.setText("Database");
+
+        firstSemMenu.setText("1st Semester");
+        firstSemMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                firstSemMenuActionPerformed(evt);
+            }
+        });
+        databaseMenu.add(firstSemMenu);
+
+        secondSemMenu.setText("2nd Semester");
+        secondSemMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                secondSemMenuActionPerformed(evt);
+            }
+        });
+        databaseMenu.add(secondSemMenu);
+
+        summerMenu.setText("Summer");
+        summerMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                summerMenuActionPerformed(evt);
+            }
+        });
+        databaseMenu.add(summerMenu);
+
+        jMenu2.add(databaseMenu);
+
+        jMenuBar1.add(jMenu2);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -959,6 +1002,38 @@ public class students extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_dropSubjectBtnActionPerformed
 
+    private void secondSemMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_secondSemMenuActionPerformed
+        DateFormat dFormat = new SimpleDateFormat("yyyy");
+        Date date1 = new Date();
+        String currentDate = dFormat.format(date1);
+        String afterYearDate = String.valueOf(Integer.parseInt(currentDate) + 1);
+        
+        String databaseName = String.format("2nd_SY%s_%s", currentDate, afterYearDate);
+        createDatabase(databaseName);
+    }//GEN-LAST:event_secondSemMenuActionPerformed
+
+    private void firstSemMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstSemMenuActionPerformed
+        DateFormat dFormat = new SimpleDateFormat("yyyy");
+        Date date1 = new Date();
+        String currentDate = dFormat.format(date1);
+        String afterYearDate = String.valueOf(Integer.parseInt(currentDate) + 1);
+        
+        String databaseName = String.format("1st_SY%s_%s", currentDate, afterYearDate);
+        createDatabase(databaseName);
+        
+        
+    }//GEN-LAST:event_firstSemMenuActionPerformed
+
+    private void summerMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_summerMenuActionPerformed
+        DateFormat dFormat = new SimpleDateFormat("yyyy");
+        Date date1 = new Date();
+        String currentDate = dFormat.format(date1);
+        String afterYearDate = String.valueOf(Integer.parseInt(currentDate) + 1);
+        
+        String databaseName = String.format("summer_sy%s_%s", currentDate, afterYearDate);
+        createDatabase(databaseName);
+    }//GEN-LAST:event_summerMenuActionPerformed
+
     
     public void updateEnrollTable(){
         
@@ -1181,6 +1256,105 @@ public class students extends javax.swing.JFrame {
             
         }
     }
+    
+    public void createDatabase(String databaseName){
+        
+        String query1 = String.format("CREATE DATABASE %s;", databaseName);
+        
+        String createStudentsTable =  "CREATE TABLE students (\n" +
+                                    "	student_id int NOT NULL,\n" +
+                                    "	student_name text,\n" +
+                                    "	student_address text,\n" +
+                                    "	student_course text,\n" +
+                                    "	student_gender text,\n" +
+                                    "	student_year text,\n" +
+                                    "   PRIMARY KEY (student_id)\n" +
+                                    ");";
+        
+        String createSubjectsTable = "CREATE TABLE subjects(\n" +
+                                    "    subject_id int NOT NULL,\n" +
+                                    "    subject_code text,\n" +
+                                    "    subject_desc text,\n" +
+                                    "    subject_units int,\n" +
+                                    "    subject_sched text,\n" +
+                                    "    PRIMARY KEY (subject_id)\n" +
+                                    ");";
+        
+        String createTeachersTable = "CREATE TABLE teachers (\n" +
+                                    "	 teacher_id int NOT NULL,\n" +
+                                    "    teacher_name text,\n" +
+                                    "    teacher_department text,\n" +
+                                    "    teacher_address text,\n" +
+                                    "    teacher_contact text,\n" +
+                                    "    teacher_status text,\n" +
+                                    "    PRIMARY KEY(teacher_id)\n" +
+                                    ");";
+        
+        String createEnrollTable = "CREATE TABLE enroll (\n" +
+                                    "	enroll_id int NOT NULL,\n" +
+                                    "	student_id int,\n" +
+                                    "    subject_id int,\n" +
+                                    "    PRIMARY KEY(enroll_id),\n" +
+                                    "    FOREIGN KEY(student_id) REFERENCES students(student_id),\n" +
+                                    "    FOREIGN KEY (subject_id) REFERENCES subjects(subject_id)\n" +
+                                    ");";
+        
+        String createAssignTable = "CREATE TABLE assign (\n" +
+                                    "	date text,\n" +
+                                    "    teacher_id int,\n" +
+                                    "    subject_id int,\n" +
+                                    "	FOREIGN KEY (teacher_id) REFERENCES teachers(teacher_id),\n" +
+                                    "    FOREIGN KEY (subject_id) REFERENCES subjects(subject_id)\n" +
+                                    ");";
+        
+        String createTransactionChargesTable = "CREATE TABLE transaction_charges(\n" +
+                                                "    trans_id int NOT NULL,\n" +
+                                                "    deparment decimal(15, 2),\n" +
+                                                "    subject_units decimal(15, 2),\n" +
+                                                "    insuarance decimal(15,2),\n" +
+                                                "    computer decimal(15,2),\n" +
+                                                "    laboratory decimal(15,2),\n" +
+                                                "    cultural decimal(15,2),\n" +
+                                                "    library decimal(15,2),\n" +
+                                                "    facility decimal(15,2),\n" +
+                                                "    PRIMARY KEY (trans_id)\n" +
+                                                ");";
+        
+        String createInvoiceTable = "CREATE TABLE invoice(\n" +
+                                    "	invoice_num int NOT NULL,\n" +
+                                    "    due_date int,\n" +
+                                    "    PRIMARY KEY (invoice_num)\n" +
+                                    ");";
+        
+        String createGradesTable =  "CREATE TABLE grades(\n" +
+                                    "	grade_id int NOT NULL,\n" +
+                                    "    prelim text,\n" +
+                                    "    midterm text,\n" +
+                                    "    prefinal text,\n" +
+                                    "    PRIMARY KEY (grade_id)\n" +
+                                    ");";
+        
+        try{
+            EnrollmentSystem.con.createStatement().executeUpdate(query1);
+            
+            String connect = String.format("jdbc:mysql://localhost:3306/%s", databaseName);
+            
+            Connection con2 = DriverManager.getConnection(connect, EnrollmentSystem.user, EnrollmentSystem.pass);
+            con2.createStatement().executeUpdate(createStudentsTable);
+            con2.createStatement().executeUpdate(createSubjectsTable);
+            con2.createStatement().executeUpdate(createTeachersTable);
+            con2.createStatement().executeUpdate(createEnrollTable);
+            con2.createStatement().executeUpdate(createAssignTable);
+            con2.createStatement().executeUpdate(createTransactionChargesTable);
+            con2.createStatement().executeUpdate(createInvoiceTable);
+            con2.createStatement().executeUpdate(createGradesTable);
+            
+            
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(this,"Database already exists", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+    }
 
     /**
      * @param args the command line arguments
@@ -1232,9 +1406,11 @@ public class students extends javax.swing.JFrame {
     private javax.swing.JButton addSubjectBtn;
     private javax.swing.JComboBox<String> addressCB;
     private javax.swing.JComboBox<String> courseCB;
+    private javax.swing.JMenu databaseMenu;
     private javax.swing.JButton deleteBtn;
     private javax.swing.JButton dropSubjectBtn;
     private javax.swing.JTable enrollTable;
+    private javax.swing.JMenuItem firstSemMenu;
     private javax.swing.JComboBox<String> genderCB;
     private javax.swing.JComboBox<String> idCB;
     private javax.swing.JLabel jLabel1;
@@ -1262,6 +1438,7 @@ public class students extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -1272,6 +1449,7 @@ public class students extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JComboBox<String> nameCB;
     private javax.swing.JButton saveBtn;
+    private javax.swing.JMenuItem secondSemMenu;
     private javax.swing.JTextField studentAddress;
     private javax.swing.JTextField studentCourse;
     private javax.swing.JTextField studentGender;
@@ -1279,6 +1457,7 @@ public class students extends javax.swing.JFrame {
     private javax.swing.JTextField studentName;
     private javax.swing.JTable studentTable;
     private javax.swing.JTextField studentYear;
+    private javax.swing.JMenuItem summerMenu;
     private javax.swing.JButton updateBtn;
     private javax.swing.JComboBox<String> ylvlCB;
     // End of variables declaration//GEN-END:variables
