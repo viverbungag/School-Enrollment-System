@@ -116,6 +116,9 @@ public class students extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
@@ -713,6 +716,7 @@ public class students extends javax.swing.JFrame {
                     st.setString(6, studentYear.getText());
 
                     st.executeUpdate();
+                    createStudentUser();
                     JOptionPane.showMessageDialog(this,"Student Successfully Saved");
                     updateTableStudents();
                 }
@@ -728,24 +732,51 @@ public class students extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"Please fill up every field", "Student not saved!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_saveBtnActionPerformed
-
+    
+    private void createStudentUser(){
+        String username = studentID.getText() + studentName.getText();
+        String password = "s" + username;
+        String query =  String.format("CREATE USER '%s'@'localhost' IDENTIFIED BY '%s'", username, password);
+        String query2 = String.format("GRANT ALL PRIVILEGES ON %s.* TO '%s'@'localhost'", Login.loggedDatabase, username);
+        
+        try{
+            EnrollmentSystem.con.prepareStatement(query).executeUpdate();
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+        
+        try{
+            EnrollmentSystem.con.prepareStatement(query2).executeUpdate();
+            
+        }catch(Exception ex){
+            
+        }
+        
+    }
+    
+    
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         // TODO add your handling code here:
         try{
+            String condition = "";
             String query = "DELETE FROM students";
             if ((finalQuery.equals("SELECT * FROM students") || finalQuery.equals("")) && studentTable.getSelectedRowCount() == 0){
                 JOptionPane.showMessageDialog(this,"Please select a row to delete", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else if (studentTable.getSelectedRowCount() > 0){
                 int idx = studentTable.getSelectedRow();
-                query += " WHERE student_id = " + studentTable.getValueAt(idx, 0).toString();
+                condition = " WHERE student_id = " + studentTable.getValueAt(idx, 0).toString();
+                query += condition;
+                deleteStudentUser(condition);
                 PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
                 st.executeUpdate();
                 JOptionPane.showMessageDialog(this,"Student Successfully Deleted");
                 filter();
             }
             else{
-                query += " WHERE student_id in (select student_id from (" + finalQuery + ") as x)"; 
+                condition = " WHERE student_id in (select student_id from (" + finalQuery + ") as x)";
+                query += condition; 
+                deleteStudentUser(condition);
                 PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
                 st.executeUpdate();
                 JOptionPane.showMessageDialog(this,"Student Successfully Deleted");
@@ -757,7 +788,24 @@ public class students extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_deleteBtnActionPerformed
-
+    private void deleteStudentUser(String condition){
+        String selectQuery = "SELECT * FROM students" + condition;
+        
+        try{
+            ResultSet rs = EnrollmentSystem.con.createStatement().executeQuery(selectQuery);
+            while (rs.next()){
+                String id = rs.getString("student_id");
+                String name = rs.getString("student_name");
+                String query = String.format("DROP USER '%s'@'localhost'",id+name);
+                EnrollmentSystem.con.prepareStatement(query).executeUpdate();
+            }
+            
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+        
+    }
+    
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         updateTableStudents();
@@ -845,7 +893,7 @@ public class students extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
         subjectsClass.setVisible(true);
-        subjectsClass.setDefaultCloseOperation(subjectsClass.HIDE_ON_CLOSE);
+        subjectsClass.setDefaultCloseOperation(subjectsClass.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void idCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idCBActionPerformed
@@ -936,7 +984,7 @@ public class students extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
         teachersClass.setVisible(true);
-        teachersClass.setDefaultCloseOperation(teachersClass.HIDE_ON_CLOSE);
+        teachersClass.setDefaultCloseOperation(teachersClass.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void addSubjectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSubjectBtnActionPerformed
@@ -1033,6 +1081,10 @@ public class students extends javax.swing.JFrame {
         String databaseName = String.format("summer_sy%s_%s", currentDate, afterYearDate);
         createDatabase(databaseName);
     }//GEN-LAST:event_summerMenuActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        updateTableStudents();
+    }//GEN-LAST:event_formWindowActivated
 
     
     public void updateEnrollTable(){
@@ -1256,6 +1308,7 @@ public class students extends javax.swing.JFrame {
             
         }
     }
+    
     
     public void createDatabase(String databaseName){
         

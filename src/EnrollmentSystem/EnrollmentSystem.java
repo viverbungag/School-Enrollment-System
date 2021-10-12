@@ -38,8 +38,8 @@ public class EnrollmentSystem {
         catch(Exception e){
             System.out.println(e);
         }
-        students studentsClass = new students();
-        studentsClass.setVisible(true);
+        Login LoginClass = new Login();
+        LoginClass.setVisible(true);
 
     }
     

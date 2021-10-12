@@ -5,12 +5,20 @@
  */
 package EnrollmentSystem;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+
 /**
  *
  * @author Viver
  */
 public class Login extends javax.swing.JFrame {
-
+    
+    static String loggedDatabase;
+    
+    studentUser studentUserClass = new studentUser();
+    students studentsClass = new students();
     /**
      * Creates new form Login
      */
@@ -29,12 +37,12 @@ public class Login extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        usernameTF = new javax.swing.JTextField();
+        loginBtn = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
-        jButton2 = new javax.swing.JButton();
+        databaseCB = new javax.swing.JComboBox();
+        submitBtn = new javax.swing.JButton();
+        passwordTF = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -42,13 +50,23 @@ public class Login extends javax.swing.JFrame {
 
         jLabel2.setText("Password");
 
-        jButton1.setText("Login");
+        loginBtn.setText("Login");
+        loginBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginBtnActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("School Year");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        databaseCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "School Year" }));
 
-        jButton2.setText("Submit");
+        submitBtn.setText("Submit");
+        submitBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -58,23 +76,24 @@ public class Login extends javax.swing.JFrame {
                 .addGap(68, 68, 68)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(10, 10, 10)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(loginBtn)
+                            .addComponent(usernameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(passwordTF, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(173, Short.MAX_VALUE))
+                            .addComponent(submitBtn)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(databaseCB, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(132, 132, 132)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -82,24 +101,72 @@ public class Login extends javax.swing.JFrame {
                 .addGap(61, 61, 61)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(usernameTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(passwordTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(loginBtn)
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(databaseCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(submitBtn)
                 .addContainerGap(47, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void submitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitBtnActionPerformed
+        
+        
+        
+        loggedDatabase = databaseCB.getSelectedItem().toString();
+        
+        if (usernameTF.getText().equals("root")){
+            studentsClass.setVisible(true);
+            studentsClass.setDefaultCloseOperation(studentsClass.DISPOSE_ON_CLOSE);
+        }else{
+            studentUserClass.setVisible(true);
+            studentUserClass.setDefaultCloseOperation(studentUserClass.DISPOSE_ON_CLOSE);
+        }
+
+        try{
+            EnrollmentSystem.con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + loggedDatabase, usernameTF.getText(), passwordTF.getText());
+            
+        }catch(Exception ex){
+            
+        }
+    }//GEN-LAST:event_submitBtnActionPerformed
+
+    private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
+        
+        databaseCB.removeAllItems();
+        String connect = "jdbc:mysql://localhost:3306/information_schema";
+        try{
+            Connection con2 = DriverManager.getConnection(connect, usernameTF.getText(), passwordTF.getText());
+            
+            String query = "SHOW DATABASES";
+            ResultSet rs = con2.createStatement().executeQuery(query);
+            
+            
+            
+            while(rs.next()){
+                String dName = rs.getString("database");
+                if (!dName.equals("information_schema")){
+                    databaseCB.addItem(dName);
+                }
+                
+            }
+            
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+        
+    }//GEN-LAST:event_loginBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -137,13 +204,13 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox jComboBox1;
+    public static javax.swing.JComboBox databaseCB;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JButton loginBtn;
+    private javax.swing.JPasswordField passwordTF;
+    private javax.swing.JButton submitBtn;
+    private javax.swing.JTextField usernameTF;
     // End of variables declaration//GEN-END:variables
 }
