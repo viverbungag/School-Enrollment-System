@@ -8,6 +8,7 @@ package EnrollmentSystem;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,6 +20,7 @@ public class Login extends javax.swing.JFrame {
     
     studentUser studentUserClass = new studentUser();
     students studentsClass = new students();
+    grades gradesClass = new grades();
     /**
      * Creates new form Login
      */
@@ -129,9 +131,12 @@ public class Login extends javax.swing.JFrame {
         if (usernameTF.getText().equals("root")){
             studentsClass.setVisible(true);
             studentsClass.setDefaultCloseOperation(studentsClass.DISPOSE_ON_CLOSE);
-        }else{
+        }else if (passwordTF.getText().substring(0, 1).equals("s")){
             studentUserClass.setVisible(true);
             studentUserClass.setDefaultCloseOperation(studentUserClass.DISPOSE_ON_CLOSE);
+        }else{
+            gradesClass.setVisible(true);
+            gradesClass.setDefaultCloseOperation(gradesClass.DISPOSE_ON_CLOSE);
         }
 
         try{
@@ -163,7 +168,7 @@ public class Login extends javax.swing.JFrame {
             }
             
         }catch(Exception ex){
-            System.out.println(ex);
+            JOptionPane.showMessageDialog(this,"Wrong Username or Password", "Error", JOptionPane.ERROR_MESSAGE);
         }
         
     }//GEN-LAST:event_loginBtnActionPerformed
