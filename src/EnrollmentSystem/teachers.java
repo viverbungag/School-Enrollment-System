@@ -20,7 +20,7 @@ public class teachers extends javax.swing.JFrame {
     /**
      * Creates new form teachers
      */
-    String finalQuery;
+    String finalQuery = "";
     public teachers() {
         initComponents();
     }
