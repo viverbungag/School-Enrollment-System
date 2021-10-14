@@ -10,7 +10,7 @@ import java.sql.DriverManager;
 
 /**
  *
- * @author Ricky
+ * @author
  */
 public class EnrollmentSystem {
 
@@ -19,24 +19,28 @@ public class EnrollmentSystem {
      */
     
     static Connection con;
-    
+    static Connection con2;
+    static String user;
+    static String pass;
     
     public static void main(String[] args) {
         // TODO code application logic here
         
 
         
-        String user = "root";
-        String pass = "Langgalangga1";
+        user = "root";
+        pass = "Langgalangga1";
 
         try {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/im", user, pass);
+            
         }
         catch(Exception e){
             System.out.println(e);
         }
-        students studentsClass = new students();
-        studentsClass.setVisible(true);
+        Login LoginClass = new Login();
+        LoginClass.setVisible(true);
+
     }
     
 }

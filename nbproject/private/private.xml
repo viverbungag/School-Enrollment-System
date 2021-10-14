@@ -3,9 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/Viver/Documents/EnrollmentSystem/src/EnrollmentSystem/subjects.java</file>
             <file>file:/C:/Users/Viver/Documents/EnrollmentSystem/src/EnrollmentSystem/students.java</file>
             <file>file:/C:/Users/Viver/Documents/EnrollmentSystem/src/EnrollmentSystem/teachers.java</file>
+=======
+            <file>file:/X:/Java/EnrollmentSystem/src/EnrollmentSystem/students.java</file>
+            <file>file:/X:/Java/EnrollmentSystem/src/EnrollmentSystem/teachers.java</file>
+            <file>file:/X:/Java/EnrollmentSystem/src/EnrollmentSystem/subjects.java</file>
+            <file>file:/X:/Java/EnrollmentSystem/src/EnrollmentSystem/EnrollmentSystem.java</file>
+>>>>>>> b544a92881050e1fa0cb5d20e5084de6c898f45b
         </group>
     </open-files>
 </project-private>

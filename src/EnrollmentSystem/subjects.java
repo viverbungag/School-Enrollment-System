@@ -13,7 +13,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Viver
+ * @author
  */
 public class subjects extends javax.swing.JFrame {
 
@@ -666,6 +666,8 @@ public class subjects extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_saveBtnActionPerformed
 
+    
+    
     private void subjectTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subjectTableMouseClicked
         int idx = subjectTable.getSelectedRow();
         subjectID.setText(subjectTable.getValueAt(idx, 0).toString());

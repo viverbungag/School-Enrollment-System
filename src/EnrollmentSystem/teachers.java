@@ -13,14 +13,14 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Viver
+ * @author
  */
 public class teachers extends javax.swing.JFrame {
 
     /**
      * Creates new form teachers
      */
-    String finalQuery;
+    String finalQuery = "";
     public teachers() {
         initComponents();
     }
@@ -509,7 +509,7 @@ public class teachers extends javax.swing.JFrame {
                 .addComponent(addTeacherSubjectBtn)
                 .addGap(29, 29, 29)
                 .addComponent(dropTeacherSubjectBtn)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         jLabel25.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -621,8 +621,7 @@ public class teachers extends javax.swing.JFrame {
                                     .addComponent(teacherStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(27, 27, 27)
                                 .addComponent(saveBtn)
-                                .addGap(3, 3, 3)
-                                .addGap(15, 15, 15)
+                                .addGap(18, 18, 18)
                                 .addComponent(deleteBtn)
                                 .addGap(18, 18, 18)
                                 .addComponent(updateBtn)
@@ -661,6 +660,7 @@ public class teachers extends javax.swing.JFrame {
                     st.setString(5, teacherContact.getText());
                     st.setString(6, teacherStatus.getText());
 
+                    createTeacherUser();
                     st.executeUpdate();
                     JOptionPane.showMessageDialog(this,"Teacher Successfully Saved");
                     updateTableTeachers();
@@ -676,23 +676,50 @@ public class teachers extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_saveBtnActionPerformed
 
+    private void createTeacherUser(){
+        String username = teacherID.getText() + teacherName.getText();
+        String password = "t" + username;
+        String query =  String.format("CREATE USER '%s'@'localhost' IDENTIFIED BY '%s'", username, password);
+        String query2 = String.format("GRANT ALL PRIVILEGES ON %s.* TO '%s'@'localhost'", Login.loggedDatabase, username);
+        
+        try{
+            EnrollmentSystem.con.prepareStatement(query).executeUpdate();
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+        
+        try{
+            EnrollmentSystem.con.prepareStatement(query2).executeUpdate();
+            
+        }catch(Exception ex){
+            
+        }
+        
+    }
+    
+    
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         // TODO add your handling code here:
         try{
+            String condition = "";
             String query = "DELETE FROM teachers";
             if ((finalQuery.equals("SELECT * FROM teachers") || finalQuery.equals("")) && teacherTable.getSelectedRowCount() == 0){
                 JOptionPane.showMessageDialog(this,"Please select a row to delete", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else if (teacherTable.getSelectedRowCount() > 0){
                 int idx = teacherTable.getSelectedRow();
-                query += " WHERE teacher_id = " + teacherTable.getValueAt(idx, 0).toString();
+                condition = " WHERE teacher_id = " + teacherTable.getValueAt(idx, 0).toString();
+                query += condition;
+                deleteTeacherUser(condition);
                 PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
                 st.executeUpdate();
                 JOptionPane.showMessageDialog(this,"Teacher Successfully deleted");
                 filter();
             }
             else{
-                query += " WHERE teacher_id in (select teacher_id from (" + finalQuery + ") as x)";
+                condition = " WHERE teacher_id in (select teacher_id from (" + finalQuery + ") as x)";
+                query += condition;
+                deleteTeacherUser(condition);
                 PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
                 st.executeUpdate();
                 JOptionPane.showMessageDialog(this,"Teacher Successfully deleted");
@@ -700,10 +727,29 @@ public class teachers extends javax.swing.JFrame {
             }
 
         }catch(Exception ex){
-            System.out.println(ex);
+            System.out.println(ex.getStackTrace()[0]);
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
+    private void deleteTeacherUser(String condition){
+        String selectQuery = "SELECT * FROM teachers" + condition;
+        
+        try{
+            ResultSet rs = EnrollmentSystem.con.createStatement().executeQuery(selectQuery);
+            while (rs.next()){
+                String id = rs.getString("teacher_id");
+                String name = rs.getString("teacher_name");
+                String query = String.format("DROP USER '%s'@'localhost'",id+name);
+                EnrollmentSystem.con.prepareStatement(query).executeUpdate();
+            }
+            
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+        
+    }
+    
+    
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
         // TODO add your handling code here:
 

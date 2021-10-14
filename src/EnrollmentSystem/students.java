@@ -5,15 +5,21 @@
  */
 package EnrollmentSystem;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Viver
+ * @author
  */
 public class students extends javax.swing.JFrame {
 
@@ -102,9 +108,17 @@ public class students extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        databaseMenu = new javax.swing.JMenu();
+        firstSemMenu = new javax.swing.JMenuItem();
+        secondSemMenu = new javax.swing.JMenuItem();
+        summerMenu = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
@@ -535,6 +549,38 @@ public class students extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        jMenu2.setText("New");
+
+        databaseMenu.setText("Database");
+
+        firstSemMenu.setText("1st Semester");
+        firstSemMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                firstSemMenuActionPerformed(evt);
+            }
+        });
+        databaseMenu.add(firstSemMenu);
+
+        secondSemMenu.setText("2nd Semester");
+        secondSemMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                secondSemMenuActionPerformed(evt);
+            }
+        });
+        databaseMenu.add(secondSemMenu);
+
+        summerMenu.setText("Summer");
+        summerMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                summerMenuActionPerformed(evt);
+            }
+        });
+        databaseMenu.add(summerMenu);
+
+        jMenu2.add(databaseMenu);
+
+        jMenuBar1.add(jMenu2);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -670,6 +716,7 @@ public class students extends javax.swing.JFrame {
                     st.setString(6, studentYear.getText());
 
                     st.executeUpdate();
+                    createStudentUser();
                     JOptionPane.showMessageDialog(this,"Student Successfully Saved");
                     updateTableStudents();
                 }
@@ -685,24 +732,51 @@ public class students extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"Please fill up every field", "Student not saved!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_saveBtnActionPerformed
-
+    
+    private void createStudentUser(){
+        String username = studentID.getText() + studentName.getText();
+        String password = "s" + username;
+        String query =  String.format("CREATE USER '%s'@'localhost' IDENTIFIED BY '%s'", username, password);
+        String query2 = String.format("GRANT ALL PRIVILEGES ON %s.* TO '%s'@'localhost'", Login.loggedDatabase, username);
+        
+        try{
+            EnrollmentSystem.con.prepareStatement(query).executeUpdate();
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+        
+        try{
+            EnrollmentSystem.con.prepareStatement(query2).executeUpdate();
+            
+        }catch(Exception ex){
+            
+        }
+        
+    }
+    
+    
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         // TODO add your handling code here:
         try{
+            String condition = "";
             String query = "DELETE FROM students";
             if ((finalQuery.equals("SELECT * FROM students") || finalQuery.equals("")) && studentTable.getSelectedRowCount() == 0){
                 JOptionPane.showMessageDialog(this,"Please select a row to delete", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else if (studentTable.getSelectedRowCount() > 0){
                 int idx = studentTable.getSelectedRow();
-                query += " WHERE student_id = " + studentTable.getValueAt(idx, 0).toString();
+                condition = " WHERE student_id = " + studentTable.getValueAt(idx, 0).toString();
+                query += condition;
+                deleteStudentUser(condition);
                 PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
                 st.executeUpdate();
                 JOptionPane.showMessageDialog(this,"Student Successfully Deleted");
                 filter();
             }
             else{
-                query += " WHERE student_id in (select student_id from (" + finalQuery + ") as x)"; 
+                condition = " WHERE student_id in (select student_id from (" + finalQuery + ") as x)";
+                query += condition; 
+                deleteStudentUser(condition);
                 PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
                 st.executeUpdate();
                 JOptionPane.showMessageDialog(this,"Student Successfully Deleted");
@@ -714,7 +788,24 @@ public class students extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_deleteBtnActionPerformed
-
+    private void deleteStudentUser(String condition){
+        String selectQuery = "SELECT * FROM students" + condition;
+        
+        try{
+            ResultSet rs = EnrollmentSystem.con.createStatement().executeQuery(selectQuery);
+            while (rs.next()){
+                String id = rs.getString("student_id");
+                String name = rs.getString("student_name");
+                String query = String.format("DROP USER '%s'@'localhost'",id+name);
+                EnrollmentSystem.con.prepareStatement(query).executeUpdate();
+            }
+            
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+        
+    }
+    
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         updateTableStudents();
@@ -802,7 +893,7 @@ public class students extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
         subjectsClass.setVisible(true);
-        subjectsClass.setDefaultCloseOperation(subjectsClass.HIDE_ON_CLOSE);
+        subjectsClass.setDefaultCloseOperation(subjectsClass.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void idCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idCBActionPerformed
@@ -893,7 +984,7 @@ public class students extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
         teachersClass.setVisible(true);
-        teachersClass.setDefaultCloseOperation(teachersClass.HIDE_ON_CLOSE);
+        teachersClass.setDefaultCloseOperation(teachersClass.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void addSubjectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSubjectBtnActionPerformed
@@ -958,6 +1049,42 @@ public class students extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"Please select a row from the Enrolled Subjects table", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_dropSubjectBtnActionPerformed
+
+    private void secondSemMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_secondSemMenuActionPerformed
+        DateFormat dFormat = new SimpleDateFormat("yyyy");
+        Date date1 = new Date();
+        String currentDate = dFormat.format(date1);
+        String afterYearDate = String.valueOf(Integer.parseInt(currentDate) + 1);
+        
+        String databaseName = String.format("2nd_SY%s_%s", currentDate, afterYearDate);
+        createDatabase(databaseName);
+    }//GEN-LAST:event_secondSemMenuActionPerformed
+
+    private void firstSemMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstSemMenuActionPerformed
+        DateFormat dFormat = new SimpleDateFormat("yyyy");
+        Date date1 = new Date();
+        String currentDate = dFormat.format(date1);
+        String afterYearDate = String.valueOf(Integer.parseInt(currentDate) + 1);
+        
+        String databaseName = String.format("1st_SY%s_%s", currentDate, afterYearDate);
+        createDatabase(databaseName);
+        
+        
+    }//GEN-LAST:event_firstSemMenuActionPerformed
+
+    private void summerMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_summerMenuActionPerformed
+        DateFormat dFormat = new SimpleDateFormat("yyyy");
+        Date date1 = new Date();
+        String currentDate = dFormat.format(date1);
+        String afterYearDate = String.valueOf(Integer.parseInt(currentDate) + 1);
+        
+        String databaseName = String.format("summer_sy%s_%s", currentDate, afterYearDate);
+        createDatabase(databaseName);
+    }//GEN-LAST:event_summerMenuActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        updateTableStudents();
+    }//GEN-LAST:event_formWindowActivated
 
     
     public void updateEnrollTable(){
@@ -1181,6 +1308,108 @@ public class students extends javax.swing.JFrame {
             
         }
     }
+    
+    
+    public void createDatabase(String databaseName){
+        
+        String query1 = String.format("CREATE DATABASE %s;", databaseName);
+        
+        String createStudentsTable =  "CREATE TABLE students (\n" +
+                                    "	student_id int NOT NULL,\n" +
+                                    "	student_name text,\n" +
+                                    "	student_address text,\n" +
+                                    "	student_course text,\n" +
+                                    "	student_gender text,\n" +
+                                    "	student_year text,\n" +
+                                    "   PRIMARY KEY (student_id)\n" +
+                                    ");";
+        
+        String createSubjectsTable = "CREATE TABLE subjects(\n" +
+                                    "    subject_id int NOT NULL,\n" +
+                                    "    subject_code text,\n" +
+                                    "    subject_desc text,\n" +
+                                    "    subject_units int,\n" +
+                                    "    subject_sched text,\n" +
+                                    "    PRIMARY KEY (subject_id)\n" +
+                                    ");";
+        
+        String createTeachersTable = "CREATE TABLE teachers (\n" +
+                                    "	 teacher_id int NOT NULL,\n" +
+                                    "    teacher_name text,\n" +
+                                    "    teacher_department text,\n" +
+                                    "    teacher_address text,\n" +
+                                    "    teacher_contact text,\n" +
+                                    "    teacher_status text,\n" +
+                                    "    PRIMARY KEY(teacher_id)\n" +
+                                    ");";
+        
+        String createEnrollTable = "CREATE TABLE enroll (\n" +
+                                    "	enroll_id int NOT NULL,\n" +
+                                    "	student_id int,\n" +
+                                    "    subject_id int,\n" +
+                                    "    PRIMARY KEY(enroll_id),\n" +
+                                    "    FOREIGN KEY(student_id) REFERENCES students(student_id),\n" +
+                                    "    FOREIGN KEY (subject_id) REFERENCES subjects(subject_id)\n" +
+                                    ");";
+        
+        String createAssignTable = "CREATE TABLE assign (\n" +
+                                    "	date text,\n" +
+                                    "    teacher_id int,\n" +
+                                    "    subject_id int,\n" +
+                                    "	FOREIGN KEY (teacher_id) REFERENCES teachers(teacher_id),\n" +
+                                    "    FOREIGN KEY (subject_id) REFERENCES subjects(subject_id)\n" +
+                                    ");";
+        
+        String createTransactionChargesTable = "CREATE TABLE transaction_charges(\n" +
+                                                "    trans_id int NOT NULL,\n" +
+                                                "    deparment decimal(15, 2),\n" +
+                                                "    subject_units decimal(15, 2),\n" +
+                                                "    insuarance decimal(15,2),\n" +
+                                                "    computer decimal(15,2),\n" +
+                                                "    laboratory decimal(15,2),\n" +
+                                                "    cultural decimal(15,2),\n" +
+                                                "    library decimal(15,2),\n" +
+                                                "    facility decimal(15,2),\n" +
+                                                "    PRIMARY KEY (trans_id)\n" +
+                                                ");";
+        
+        String createInvoiceTable = "CREATE TABLE invoice(\n" +
+                                    "	 invoice_num int NOT NULL,\n" +
+                                    "    due_date int,\n" +
+                                    "    PRIMARY KEY (invoice_num)\n" +
+                                    ");";
+        
+        String createGradesTable =  "CREATE TABLE grades(\n" +
+                                    "	 enroll_id int NOT NULL,\n" +
+                                    "    prelim text,\n" +
+                                    "    midterm text,\n" +
+                                    "    prefinal text,\n" +
+                                    "    final text,\n" +
+                                    "    PRIMARY KEY (enroll_id)\n"+
+                                    ");";
+        
+        try{
+            EnrollmentSystem.con.createStatement().executeUpdate(query1);
+            
+            String connect = String.format("jdbc:mysql://localhost:3306/%s", databaseName);
+            
+            Connection con2 = DriverManager.getConnection(connect, EnrollmentSystem.user, EnrollmentSystem.pass);
+            con2.createStatement().executeUpdate(createStudentsTable);
+            con2.createStatement().executeUpdate(createSubjectsTable);
+            con2.createStatement().executeUpdate(createTeachersTable);
+            con2.createStatement().executeUpdate(createEnrollTable);
+            con2.createStatement().executeUpdate(createAssignTable);
+            con2.createStatement().executeUpdate(createTransactionChargesTable);
+            con2.createStatement().executeUpdate(createInvoiceTable);
+            con2.createStatement().executeUpdate(createGradesTable);
+            
+            JOptionPane.showMessageDialog(this,"Database " + databaseName + " created");
+            
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(this,"Database already exists", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+    }
 
     /**
      * @param args the command line arguments
@@ -1232,9 +1461,11 @@ public class students extends javax.swing.JFrame {
     private javax.swing.JButton addSubjectBtn;
     private javax.swing.JComboBox<String> addressCB;
     private javax.swing.JComboBox<String> courseCB;
+    private javax.swing.JMenu databaseMenu;
     private javax.swing.JButton deleteBtn;
     private javax.swing.JButton dropSubjectBtn;
     private javax.swing.JTable enrollTable;
+    private javax.swing.JMenuItem firstSemMenu;
     private javax.swing.JComboBox<String> genderCB;
     private javax.swing.JComboBox<String> idCB;
     private javax.swing.JLabel jLabel1;
@@ -1262,6 +1493,7 @@ public class students extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -1272,6 +1504,7 @@ public class students extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JComboBox<String> nameCB;
     private javax.swing.JButton saveBtn;
+    private javax.swing.JMenuItem secondSemMenu;
     private javax.swing.JTextField studentAddress;
     private javax.swing.JTextField studentCourse;
     private javax.swing.JTextField studentGender;
@@ -1279,6 +1512,7 @@ public class students extends javax.swing.JFrame {
     private javax.swing.JTextField studentName;
     private javax.swing.JTable studentTable;
     private javax.swing.JTextField studentYear;
+    private javax.swing.JMenuItem summerMenu;
     private javax.swing.JButton updateBtn;
     private javax.swing.JComboBox<String> ylvlCB;
     // End of variables declaration//GEN-END:variables
