@@ -940,7 +940,7 @@ public class teachers extends javax.swing.JFrame {
             String teacherTableValue = teacherTable.getValueAt(teacherRow, 0).toString();
             String subjectTableValue = subjects.subjectTable.getValueAt(subjectRow, 0).toString();
 
-            String query = "INSERT INTO assign VALUES (?, ?)";
+            String query = "INSERT INTO assign(teacher_id, subject_id) VALUES (?, ?)";
             try{
                 PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
 

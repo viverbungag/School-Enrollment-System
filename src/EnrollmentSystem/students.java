@@ -808,7 +808,7 @@ public class students extends javax.swing.JFrame {
     
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        updateTableStudents();
+//        updateTableStudents();
         
         
         
@@ -995,13 +995,13 @@ public class students extends javax.swing.JFrame {
             String studentTableValue = studentTable.getValueAt(studentRow, 0).toString();
             String subjectTableValue = subjectsClass.subjectTable.getValueAt(subjectRow, 0).toString();
 
-            String query = "INSERT INTO enroll VALUES (?, ?)";
+            String query = "INSERT INTO enroll(student_id, subject_id) VALUES (?, ?)";
             try{
                 PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
 
                 st.setString(1, studentTableValue);
                 st.setString(2, subjectTableValue);
-
+              
                 st.executeUpdate();
             }catch(Exception ex){
 
@@ -1344,7 +1344,7 @@ public class students extends javax.swing.JFrame {
                                     ");";
         
         String createEnrollTable = "CREATE TABLE enroll (\n" +
-                                    "	enroll_id int NOT NULL,\n" +
+                                    "	enroll_id int NOT NULL AUTO_INCREMENT,\n" +
                                     "	student_id int,\n" +
                                     "    subject_id int,\n" +
                                     "    PRIMARY KEY(enroll_id),\n" +

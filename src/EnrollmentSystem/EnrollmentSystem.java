@@ -32,7 +32,7 @@ public class EnrollmentSystem {
         pass = "Langgalangga1";
 
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/im", user, pass);
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/information_schema", user, pass);
             
         }
         catch(Exception e){
