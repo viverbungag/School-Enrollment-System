@@ -5,7 +5,9 @@
  */
 package EnrollmentSystem;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,33 +25,72 @@ public class grades extends javax.swing.JFrame {
     
     public void updateGradesTable(){
         DefaultTableModel gradesTableModel = (DefaultTableModel) gradesTable.getModel();
-
+        
         gradesTableModel.setRowCount(0);
+        
+        int idx = subjectTable.getSelectedRow();
+
         try{
-            ResultSet rsStudentTable = EnrollmentSystem.con.createStatement().executeQuery("SELECT * FROM assign");
-            ResultSet rsUnit = EnrollmentSystem.con.createStatement().executeQuery("SELECT students.student_id AS id, "
-                    + "(SELECT SUM(subject_units) FROM students, enroll, subjects "
-                    + "WHERE students.student_id = enroll.student_id and enroll.subject_id = subjects.subject_id and enroll.student_id = id) "
-                    + "AS units FROM students");
+            ResultSet rsGradesTable = EnrollmentSystem.con.createStatement().executeQuery(String.format("SELECT students.student_id, student_name, prelim, midterm, prefinal, final "
+                    + "FROM enroll INNER JOIN grades ON enroll.enroll_id = grades.enroll_id AND enroll.subject_id = %s INNER JOIN students ON enroll.student_id = students.student_id;", subjectTable.getValueAt(idx, 0).toString()));
             
-            while (rsStudentTable.next()){
-                rsUnit.next();
-                String id = rsStudentTable.getString("student_id");
-                String nm = rsStudentTable.getString("student_name");
-                String ad = rsStudentTable.getString("student_address");
-                String cr = rsStudentTable.getString("student_course");
-                String gd = rsStudentTable.getString("student_gender");
-                String sy = rsStudentTable.getString("student_year");
-                String ct = rsUnit.getString("units");
+            while (rsGradesTable.next()){
+                String id = rsGradesTable.getString("student_id");
+                String nm = rsGradesTable.getString("student_name");
+                String pr = rsGradesTable.getString("prelim");
+                String md = rsGradesTable.getString("midterm");
+                String pf = rsGradesTable.getString("prefinal");
+                String fi = rsGradesTable.getString("final");
                 
 //                
                 
-                gradesTableModel.addRow(new String[]{id, nm, ad, cr, gd, sy, ct});
+                gradesTableModel.addRow(new String[]{id, nm, pr, md, pf, fi});
                 
             }
   
         }catch(Exception ex){
+            System.out.println(ex);
+        }
+    }
+    
+    public void updateTableSubjects(){
+        DefaultTableModel subjectTableModel = (DefaultTableModel) subjectTable.getModel();
+
+        subjectTableModel.setRowCount(0);
+        
+        int temp;
+        String pickedId = "";
+        int x = 1;
+        
+        while(true){
+            try{
+                temp = Integer.parseInt(EnrollmentSystem.user.substring(0, x++));
+                pickedId = String.valueOf(temp);
+            }catch(Exception ex){
+                break;
+            }
+        }
+        
+        System.out.println(pickedId);
+        
+        try{
+            ResultSet rsSubjectTable = EnrollmentSystem.con.createStatement().executeQuery(String.format("SELECT subjects.subject_id, subject_code, subject_desc, subject_units, subject_sched, COUNT(enroll.student_id) AS studentCount "
+                    + "FROM subjects INNER JOIN assign ON subjects.subject_id = assign.subject_id AND assign.teacher_id = %s LEFT OUTER JOIN enroll ON enroll.subject_id = subjects.subject_id GROUP BY enroll.subject_id;", pickedId));
             
+            while (rsSubjectTable.next()){
+                String idd = rsSubjectTable.getString("subject_id");
+                String cd = rsSubjectTable.getString("subject_code");
+                String ds = rsSubjectTable.getString("subject_desc");
+                String un = rsSubjectTable.getString("subject_units");
+                String sc = rsSubjectTable.getString("subject_sched");
+                String ct = rsSubjectTable.getString("studentCount");
+                
+                subjectTableModel.addRow(new String[]{idd, cd, ds, un, sc, ct});
+                
+            }
+  
+        }catch(Exception ex){
+            System.out.println(ex);
         }
     }
 
@@ -64,7 +105,7 @@ public class grades extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        subjectListTable = new javax.swing.JTable();
+        subjectTable = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         gradesTable = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
@@ -75,18 +116,18 @@ public class grades extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         studentIdTF = new javax.swing.JTextField();
         studentNameTF = new javax.swing.JTextField();
-        prelimCB = new javax.swing.JComboBox<>();
-        midtermCB = new javax.swing.JComboBox<>();
-        preFinalCB = new javax.swing.JComboBox<>();
-        finalCB = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        prelimCB = new javax.swing.JComboBox<String>();
+        midtermCB = new javax.swing.JComboBox<String>();
+        preFinalCB = new javax.swing.JComboBox<String>();
+        finalCB = new javax.swing.JComboBox<String>();
+        saveBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setText("Teacher Class List/Grades Encoding Form");
 
-        subjectListTable.setModel(new javax.swing.table.DefaultTableModel(
+        subjectTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -94,7 +135,12 @@ public class grades extends javax.swing.JFrame {
                 "Subject ID", "Subject Code", "Description", "Units", "Schedule", "No. of Students"
             }
         ));
-        jScrollPane1.setViewportView(subjectListTable);
+        subjectTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                subjectTableMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(subjectTable);
 
         gradesTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -104,6 +150,16 @@ public class grades extends javax.swing.JFrame {
                 "Student ID", "Student Name", "Prelim", "Midterm", "Pre-Final", "Final"
             }
         ));
+        gradesTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                gradesTableMouseClicked(evt);
+            }
+        });
+        gradesTable.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                gradesTableKeyPressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(gradesTable);
 
         jLabel2.setText("Student ID");
@@ -118,27 +174,39 @@ public class grades extends javax.swing.JFrame {
 
         jLabel7.setText("Final");
 
+        studentIdTF.setEditable(false);
         studentIdTF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 studentIdTFActionPerformed(evt);
             }
         });
 
+        studentNameTF.setEditable(false);
         studentNameTF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 studentNameTFActionPerformed(evt);
             }
         });
 
-        prelimCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A", "B+", "B", "C+", "C", "D", "F", "FD" }));
+        prelimCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "", "A", "B+", "B", "C+", "C", "D", "F", "FD" }));
+        prelimCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                prelimCBActionPerformed(evt);
+            }
+        });
 
-        midtermCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A", "B+", "B", "C+", "C", "D", "F", "FD" }));
+        midtermCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "", "A", "B+", "B", "C+", "C", "D", "F", "FD" }));
 
-        preFinalCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A", "B+", "B", "C+", "C", "D", "F", "FD" }));
+        preFinalCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "", "A", "B+", "B", "C+", "C", "D", "F", "FD" }));
 
-        finalCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A", "B+", "B", "C+", "C", "D", "F", "FD" }));
+        finalCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "", "A", "B+", "B", "C+", "C", "D", "F", "FD" }));
 
-        jButton1.setText("Save");
+        saveBtn.setText("Save");
+        saveBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -176,7 +244,7 @@ public class grades extends javax.swing.JFrame {
                                     .addComponent(preFinalCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(finalCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addComponent(saveBtn)
                         .addGap(243, 243, 243)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -217,7 +285,7 @@ public class grades extends javax.swing.JFrame {
                         .addGap(21, 21, 21))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
+                        .addComponent(saveBtn)
                         .addGap(40, 40, 40)))
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(24, Short.MAX_VALUE))
@@ -233,6 +301,80 @@ public class grades extends javax.swing.JFrame {
     private void studentNameTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentNameTFActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_studentNameTFActionPerformed
+
+    private void subjectTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subjectTableMouseClicked
+        updateGradesTable();
+    }//GEN-LAST:event_subjectTableMouseClicked
+
+    private void prelimCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prelimCBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_prelimCBActionPerformed
+
+    private void gradesTableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_gradesTableKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_gradesTableKeyPressed
+
+    private void gradesTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gradesTableMouseClicked
+        int idx = gradesTable.getSelectedRow();
+         
+        studentIdTF.setText(gradesTable.getValueAt(idx, 0).toString());
+        studentNameTF.setText(gradesTable.getValueAt(idx, 1).toString());
+        
+        if (gradesTable.getValueAt(idx, 2) == null){
+            prelimCB.setSelectedIndex(0);
+        }else{
+            prelimCB.setSelectedItem(gradesTable.getValueAt(idx, 2));
+        }
+        
+        if (gradesTable.getValueAt(idx, 3) == null){
+            midtermCB.setSelectedIndex(0);
+        }else{
+            midtermCB.setSelectedItem(gradesTable.getValueAt(idx, 3));
+        }
+        
+        if (gradesTable.getValueAt(idx, 4) == null){
+            preFinalCB.setSelectedIndex(0);
+        }else{
+            preFinalCB.setSelectedItem(gradesTable.getValueAt(idx, 4));
+        }
+        
+        if (gradesTable.getValueAt(idx, 5) == null){
+           finalCB.setSelectedIndex(0);
+        }else{
+            finalCB.setSelectedItem(gradesTable.getValueAt(idx, 5));
+        }
+
+    }//GEN-LAST:event_gradesTableMouseClicked
+
+    private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
+        int idx = gradesTable.getSelectedRow();
+        int idx2 = subjectTable.getSelectedRow();
+        
+        if (gradesTable.getSelectedRowCount() > 0){
+            try{
+                String query = "UPDATE enroll INNER JOIN grades ON enroll.enroll_id = grades.enroll_id INNER JOIN students ON enroll.student_id = students.student_id SET prelim = ?, midterm = ?, prefinal = ?, final = ? WHERE enroll.student_id = ? AND enroll.subject_id = ?";
+                PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
+                st.setString(1, prelimCB.getSelectedItem().toString());
+                st.setString(2, midtermCB.getSelectedItem().toString());
+                st.setString(3, preFinalCB.getSelectedItem().toString());
+                st.setString(4, finalCB.getSelectedItem().toString());
+                st.setString(5, gradesTable.getValueAt(idx, 0).toString());
+                st.setString(6, subjectTable.getValueAt(idx2, 0).toString());
+
+                st.executeUpdate();
+
+                updateGradesTable();
+
+                JOptionPane.showMessageDialog(this,"Grade Successfully edited");  
+
+            }catch(Exception ex){
+                System.out.println(ex);
+            }
+        }else{
+            JOptionPane.showMessageDialog(this,"Please select a row from the Grades Table", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_saveBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -272,7 +414,6 @@ public class grades extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> finalCB;
     private javax.swing.JTable gradesTable;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -285,8 +426,9 @@ public class grades extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> midtermCB;
     private javax.swing.JComboBox<String> preFinalCB;
     private javax.swing.JComboBox<String> prelimCB;
+    private javax.swing.JButton saveBtn;
     private javax.swing.JTextField studentIdTF;
     private javax.swing.JTextField studentNameTF;
-    private javax.swing.JTable subjectListTable;
+    private javax.swing.JTable subjectTable;
     // End of variables declaration//GEN-END:variables
 }

@@ -800,6 +800,7 @@ public class teachers extends javax.swing.JFrame {
                 st.executeUpdate();
                 JOptionPane.showMessageDialog(this,"Teacher Successfully Updated");
                 filter();
+                updateTableTeachers();
             }
         }catch(Exception ex){
             System.out.println(ex);
@@ -929,7 +930,7 @@ public class teachers extends javax.swing.JFrame {
     }//GEN-LAST:event_status_TFActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        updateTableTeachers();
+//        updateTableTeachers();
     }//GEN-LAST:event_formWindowOpened
 
     private void addTeacherSubjectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTeacherSubjectBtnActionPerformed
@@ -948,9 +949,12 @@ public class teachers extends javax.swing.JFrame {
                 st.setString(2, subjectTableValue);
 
                 st.executeUpdate();
+                
+                JOptionPane.showMessageDialog(this,"Subject Successfully assigned");   
             }catch(Exception ex){
 
             }
+            updateTableTeachers();
             updateTeacherSubjectsTable();
         }else{
             JOptionPane.showMessageDialog(this,"Please select a row from Teacher and Subject table", "Error", JOptionPane.ERROR_MESSAGE);
@@ -978,6 +982,8 @@ public class teachers extends javax.swing.JFrame {
             }catch(Exception ex){
 
             }
+            JOptionPane.showMessageDialog(this,"Subject Successfully dropped");
+            updateTableTeachers();
             updateTeacherSubjectsTable();
         }else{
             JOptionPane.showMessageDialog(this,"Please select a row from the Assigned Subjects table", "Error", JOptionPane.ERROR_MESSAGE);

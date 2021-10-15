@@ -5,6 +5,7 @@
  */
 package EnrollmentSystem;
 
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -70,6 +71,12 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        passwordTF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passwordTFKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -92,10 +99,8 @@ public class Login extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(submitBtn)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(databaseCB, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(132, 132, 132)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(databaseCB, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(132, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,24 +132,28 @@ public class Login extends javax.swing.JFrame {
         
         
         loggedDatabase = databaseCB.getSelectedItem().toString();
-        
+        try{
+            EnrollmentSystem.con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + loggedDatabase, usernameTF.getText(), passwordTF.getText());
+            EnrollmentSystem.user = usernameTF.getText();
+            EnrollmentSystem.pass = passwordTF.getText();
+            
+        }catch(Exception ex){
+            
+        }
         if (usernameTF.getText().equals("root")){
             studentsClass.setVisible(true);
+            studentsClass.updateTableStudents();
             studentsClass.setDefaultCloseOperation(studentsClass.DISPOSE_ON_CLOSE);
         }else if (passwordTF.getText().substring(0, 1).equals("s")){
             studentUserClass.setVisible(true);
             studentUserClass.setDefaultCloseOperation(studentUserClass.DISPOSE_ON_CLOSE);
         }else{
             gradesClass.setVisible(true);
+            gradesClass.updateTableSubjects();
             gradesClass.setDefaultCloseOperation(gradesClass.DISPOSE_ON_CLOSE);
         }
 
-        try{
-            EnrollmentSystem.con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + loggedDatabase, usernameTF.getText(), passwordTF.getText());
-            
-        }catch(Exception ex){
-            
-        }
+
     }//GEN-LAST:event_submitBtnActionPerformed
 
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
@@ -172,6 +181,12 @@ public class Login extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_loginBtnActionPerformed
+
+    private void passwordTFKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordTFKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+            loginBtn.doClick();
+        }
+    }//GEN-LAST:event_passwordTFKeyPressed
 
     /**
      * @param args the command line arguments

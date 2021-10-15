@@ -894,6 +894,7 @@ public class students extends javax.swing.JFrame {
         // TODO add your handling code here:
         subjectsClass.setVisible(true);
         subjectsClass.setDefaultCloseOperation(subjectsClass.DISPOSE_ON_CLOSE);
+        subjectsClass.updateTableSubjects();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void idCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idCBActionPerformed
@@ -985,10 +986,11 @@ public class students extends javax.swing.JFrame {
         // TODO add your handling code here:
         teachersClass.setVisible(true);
         teachersClass.setDefaultCloseOperation(teachersClass.DISPOSE_ON_CLOSE);
+        teachersClass.updateTableTeachers();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void addSubjectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSubjectBtnActionPerformed
-        if (studentTable.getSelectedRowCount() > 0 && subjectsClass.subjectTable.getSelectedRowCount() > 0){    
+        if (studentTable.getSelectedRowCount() != 0 && subjectsClass.subjectTable.getSelectedRowCount() != 0){    
             int studentRow = studentTable.getSelectedRow();
             int subjectRow = subjectsClass.subjectTable.getSelectedRow();
 
@@ -996,17 +998,25 @@ public class students extends javax.swing.JFrame {
             String subjectTableValue = subjectsClass.subjectTable.getValueAt(subjectRow, 0).toString();
 
             String query = "INSERT INTO enroll(student_id, subject_id) VALUES (?, ?)";
+            String query2 = "INSERT INTO grades(enroll_id) VALUES ((SELECT enroll_id FROM enroll WHERE student_id = ? AND subject_id = ?));";
+            
             try{
                 PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
-
+                PreparedStatement st2 = EnrollmentSystem.con.prepareStatement(query2);
+                
                 st.setString(1, studentTableValue);
                 st.setString(2, subjectTableValue);
+                
+                st2.setString(1, studentTableValue);
+                st2.setString(2, subjectTableValue);
               
                 st.executeUpdate();
+                st2.executeUpdate();
+                JOptionPane.showMessageDialog(this,"Subject Successfully enrolled");   
             }catch(Exception ex){
-
+                JOptionPane.showMessageDialog(this,"The Subject is already enrolled", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            JOptionPane.showMessageDialog(this,"Subject Successfully added");   
+            updateTableStudents();
             updateEnrollTable();
             subjectsClass.updateClassTable();
             subjectsClass.updateTableSubjects();
@@ -1027,19 +1037,27 @@ public class students extends javax.swing.JFrame {
 
 
             String query = "DELETE FROM enroll WHERE enroll.student_id = ? AND enroll.subject_id = ?";
+            String query2 = "DELETE FROM grades WHERE enroll_id = (SELECT enroll_id FROM enroll WHERE student_id = ? AND subject_id = ?)";
+            
             try{
                 PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
+                PreparedStatement st2 = EnrollmentSystem.con.prepareStatement(query2);
+                
                 st.setInt(1, Integer.parseInt(studentTable.getValueAt(idx, 0).toString()));
                 st.setInt(2, Integer.parseInt(enrollTable.getValueAt(idx2, 0).toString()));
+                
+                st2.setInt(1, Integer.parseInt(studentTable.getValueAt(idx, 0).toString()));
+                st2.setInt(2, Integer.parseInt(enrollTable.getValueAt(idx2, 0).toString()));
 
                 st.executeUpdate();
-
+                st2.executeUpdate();
 
             }catch(Exception ex){
 
             }
 
             JOptionPane.showMessageDialog(this,"Subject Successfully dropped");
+            updateTableStudents();
             updateEnrollTable();
             subjectsClass.updateClassTable();
             subjectsClass.updateTableSubjects();
@@ -1083,7 +1101,7 @@ public class students extends javax.swing.JFrame {
     }//GEN-LAST:event_summerMenuActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        updateTableStudents();
+//        updateTableStudents();
     }//GEN-LAST:event_formWindowActivated
 
     
@@ -1314,78 +1332,79 @@ public class students extends javax.swing.JFrame {
         
         String query1 = String.format("CREATE DATABASE %s;", databaseName);
         
-        String createStudentsTable =  "CREATE TABLE students (\n" +
-                                    "	student_id int NOT NULL,\n" +
-                                    "	student_name text,\n" +
-                                    "	student_address text,\n" +
-                                    "	student_course text,\n" +
-                                    "	student_gender text,\n" +
-                                    "	student_year text,\n" +
-                                    "   PRIMARY KEY (student_id)\n" +
-                                    ");";
+        String createStudentsTable = "  CREATE TABLE students (\n" +
+                                     "	student_id INT NOT NULL,\n" +
+                                     "	student_name TEXT,\n" +
+                                     "	student_address TEXT,\n" +
+                                     "	student_course TEXT,\n" +
+                                     "	student_gender TEXT,\n" +
+                                     "	student_year TEXT,\n" +
+                                     "   PRIMARY KEY (student_id)\n" +
+                                     ");";
         
-        String createSubjectsTable = "CREATE TABLE subjects(\n" +
-                                    "    subject_id int NOT NULL,\n" +
-                                    "    subject_code text,\n" +
-                                    "    subject_desc text,\n" +
-                                    "    subject_units int,\n" +
-                                    "    subject_sched text,\n" +
-                                    "    PRIMARY KEY (subject_id)\n" +
-                                    ");";
+        String createSubjectsTable = "    CREATE TABLE subjects(\n" +
+                                     "    subject_id INT NOT NULL,\n" +
+                                     "    subject_code TEXT,\n" +
+                                     "    subject_desc TEXT,\n" +
+                                     "    subject_units INT,\n" +
+                                     "    subject_sched TEXT,\n" +
+                                     "    PRIMARY KEY (subject_id)\n" +
+                                     ");";
         
-        String createTeachersTable = "CREATE TABLE teachers (\n" +
-                                    "	 teacher_id int NOT NULL,\n" +
-                                    "    teacher_name text,\n" +
-                                    "    teacher_department text,\n" +
-                                    "    teacher_address text,\n" +
-                                    "    teacher_contact text,\n" +
-                                    "    teacher_status text,\n" +
-                                    "    PRIMARY KEY(teacher_id)\n" +
-                                    ");";
+        String createTeachersTable = "    CREATE TABLE teachers (\n" +
+                                     "	  teacher_id INT NOT NULL,\n" +
+                                     "    teacher_name TEXT,\n" +
+                                     "    teacher_department TEXT,\n" +
+                                     "    teacher_address TEXT,\n" +
+                                     "    teacher_contact TEXT,\n" +
+                                     "    teacher_status TEXT,\n" +
+                                     "    PRIMARY KEY(teacher_id)\n" +
+                                     ");";
         
-        String createEnrollTable = "CREATE TABLE enroll (\n" +
-                                    "	enroll_id int NOT NULL AUTO_INCREMENT,\n" +
-                                    "	student_id int,\n" +
-                                    "    subject_id int,\n" +
+        String createEnrollTable =  "    CREATE TABLE enroll (\n" +
+                                    "	 enroll_id INT NOT NULL AUTO_INCREMENT,\n" +
+                                    "	 student_id INT NOT NULL,\n" +
+                                    "    subject_id INT NOT NULL,\n" +
                                     "    PRIMARY KEY(enroll_id),\n" +
                                     "    FOREIGN KEY(student_id) REFERENCES students(student_id),\n" +
+                                    "    FOREIGN KEY (subject_id) REFERENCES subjects(subject_id),\n" +
+                                    "    UNIQUE KEY make_unique(student_id, subject_id)\n" +
+                                    ");";
+        
+        String createAssignTable =  "    CREATE TABLE assign (\n" +
+                                    "	 date TEXT NULL,\n" +
+                                    "    teacher_id INT NOT NULL,\n" +
+                                    "    subject_id INT NOT NULL UNIQUE,\n" +
+                                    "	 FOREIGN KEY (teacher_id) REFERENCES teachers(teacher_id),\n" +
                                     "    FOREIGN KEY (subject_id) REFERENCES subjects(subject_id)\n" +
                                     ");";
         
-        String createAssignTable = "CREATE TABLE assign (\n" +
-                                    "	date text,\n" +
-                                    "    teacher_id int,\n" +
-                                    "    subject_id int,\n" +
-                                    "	FOREIGN KEY (teacher_id) REFERENCES teachers(teacher_id),\n" +
-                                    "    FOREIGN KEY (subject_id) REFERENCES subjects(subject_id)\n" +
-                                    ");";
-        
-        String createTransactionChargesTable = "CREATE TABLE transaction_charges(\n" +
+        String createTransactionChargesTable =  "    CREATE TABLE transaction_charges(\n" +
                                                 "    trans_id int NOT NULL,\n" +
-                                                "    deparment decimal(15, 2),\n" +
-                                                "    subject_units decimal(15, 2),\n" +
-                                                "    insuarance decimal(15,2),\n" +
-                                                "    computer decimal(15,2),\n" +
-                                                "    laboratory decimal(15,2),\n" +
-                                                "    cultural decimal(15,2),\n" +
-                                                "    library decimal(15,2),\n" +
-                                                "    facility decimal(15,2),\n" +
+                                                "    deparment DECIMAL(15, 2),\n" +
+                                                "    subject_units DECIMAL(15, 2),\n" +
+                                                "    insuarance DECIMAL(15,2),\n" +
+                                                "    computer DECIMAL(15,2),\n" +
+                                                "    laboratory DECIMAL(15,2),\n" +
+                                                "    cultural DECIMAL(15,2),\n" +
+                                                "    library DECIMAL(15,2),\n" +
+                                                "    facility DECIMAL(15,2),\n" +
                                                 "    PRIMARY KEY (trans_id)\n" +
                                                 ");";
         
-        String createInvoiceTable = "CREATE TABLE invoice(\n" +
+        String createInvoiceTable = "    CREATE TABLE invoice(\n" +
                                     "	 invoice_num int NOT NULL,\n" +
-                                    "    due_date int,\n" +
+                                    "    due_date INT,\n" +
                                     "    PRIMARY KEY (invoice_num)\n" +
                                     ");";
         
-        String createGradesTable =  "CREATE TABLE grades(\n" +
-                                    "	 enroll_id int NOT NULL,\n" +
-                                    "    prelim text,\n" +
-                                    "    midterm text,\n" +
-                                    "    prefinal text,\n" +
-                                    "    final text,\n" +
-                                    "    PRIMARY KEY (enroll_id)\n"+
+        String createGradesTable =  "    CREATE TABLE grades(\n" +
+                                    "	 enroll_id INT NOT NULL,\n" +
+                                    "    prelim TEXT,\n" +
+                                    "    midterm TEXT,\n" +
+                                    "    prefinal TEXT,\n" +
+                                    "    final TEXT,\n" +
+                                    "    PRIMARY KEY (enroll_id)\n" +
                                     ");";
         
         try{
@@ -1406,7 +1425,8 @@ public class students extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"Database " + databaseName + " created");
             
         }catch(SQLException ex){
-            JOptionPane.showMessageDialog(this,"Database already exists", "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println(ex);
+//            JOptionPane.showMessageDialog(this,"Database already exists", "Error", JOptionPane.ERROR_MESSAGE);
         }
         
     }
