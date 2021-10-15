@@ -12,7 +12,11 @@
             <file>file:/X:/Java/EnrollmentSystem/src/EnrollmentSystem/teachers.java</file>
             <file>file:/X:/Java/EnrollmentSystem/src/EnrollmentSystem/subjects.java</file>
             <file>file:/X:/Java/EnrollmentSystem/src/EnrollmentSystem/EnrollmentSystem.java</file>
+<<<<<<< HEAD
 >>>>>>> b544a92881050e1fa0cb5d20e5084de6c898f45b
+=======
+            <file>file:/X:/Java/EnrollmentSystem/src/EnrollmentSystem/Login.java</file>
+>>>>>>> c4b8e1b0390f501deb1f8d01d2f8906f13c98c1c
         </group>
     </open-files>
 </project-private>
