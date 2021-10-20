@@ -19,6 +19,8 @@ public class grades extends javax.swing.JFrame {
     /**
      * Creates new form grades
      */
+    
+
     public grades() {
         initComponents();
     }
@@ -58,24 +60,14 @@ public class grades extends javax.swing.JFrame {
 
         subjectTableModel.setRowCount(0);
         
-        int temp;
-        String pickedId = "";
-        int x = 1;
+
+       
         
-        while(true){
-            try{
-                temp = Integer.parseInt(EnrollmentSystem.user.substring(0, x++));
-                pickedId = String.valueOf(temp);
-            }catch(Exception ex){
-                break;
-            }
-        }
-        
-        System.out.println(pickedId);
+//        System.out.println(pickedId);
         
         try{
             ResultSet rsSubjectTable = EnrollmentSystem.con.createStatement().executeQuery(String.format("SELECT subjects.subject_id, subject_code, subject_desc, subject_units, subject_sched, COUNT(enroll.student_id) AS studentCount "
-                    + "FROM subjects INNER JOIN assign ON subjects.subject_id = assign.subject_id AND assign.teacher_id = %s LEFT OUTER JOIN enroll ON enroll.subject_id = subjects.subject_id GROUP BY enroll.subject_id;", pickedId));
+                    + "FROM subjects INNER JOIN assign ON subjects.subject_id = assign.subject_id AND assign.teacher_id = %s LEFT OUTER JOIN enroll ON enroll.subject_id = subjects.subject_id GROUP BY enroll.subject_id;", Login.pickedId));
             
             while (rsSubjectTable.next()){
                 String idd = rsSubjectTable.getString("subject_id");

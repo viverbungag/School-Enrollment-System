@@ -17,11 +17,17 @@ import javax.swing.JOptionPane;
  */
 public class Login extends javax.swing.JFrame {
     
-    static String loggedDatabase;
+    static String loggedDatabase = "";
     
     studentUser studentUserClass = new studentUser();
     students studentsClass = new students();
     grades gradesClass = new grades();
+    printGrades printGradesClass = new printGrades();
+    
+    static String pickedId = "";
+    static String studentName = "";
+    static String studentCourse = "";
+    static String studentYear = "";
     /**
      * Creates new form Login
      */
@@ -145,9 +151,13 @@ public class Login extends javax.swing.JFrame {
             studentsClass.updateTableStudents();
             studentsClass.setDefaultCloseOperation(studentsClass.DISPOSE_ON_CLOSE);
         }else if (passwordTF.getText().substring(0, 1).equals("s")){
-            studentUserClass.setVisible(true);
-            studentUserClass.setDefaultCloseOperation(studentUserClass.DISPOSE_ON_CLOSE);
+//            studentUserClass.setVisible(true);
+//            studentUserClass.setDefaultCloseOperation(studentUserClass.DISPOSE_ON_CLOSE);
+            updateId();
+            getStudentInfo();
+            printGradesClass.printGrades();
         }else{
+            updateId();
             gradesClass.setVisible(true);
             gradesClass.updateTableSubjects();
             gradesClass.setDefaultCloseOperation(gradesClass.DISPOSE_ON_CLOSE);
@@ -155,7 +165,49 @@ public class Login extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_submitBtnActionPerformed
-
+    
+    public void getStudentInfo(){
+        
+        String query = "SELECT * FROM students WHERE student_id = " + pickedId;
+        
+        try{
+            
+            ResultSet rs = EnrollmentSystem.con.createStatement().executeQuery(query);
+            rs.next();
+            
+            studentName = rs.getString("student_name");
+            studentCourse = rs.getString("student_course");
+            studentYear = rs.getString("student_year");
+            
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        
+        
+        
+        
+        
+        
+        
+    }
+    
+    public void updateId(){
+        
+        int temp;
+        int x = 1;
+        
+        while(true){
+            try{
+                temp = Integer.parseInt(EnrollmentSystem.user.substring(0, x++));
+                pickedId = String.valueOf(temp);
+            }catch(Exception ex){
+                break;
+            }
+        }
+        
+        
+    }
+    
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
         
         databaseCB.removeAllItems();
