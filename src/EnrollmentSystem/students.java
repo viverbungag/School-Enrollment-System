@@ -5,18 +5,22 @@
  */
 package EnrollmentSystem;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Types;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
+import java.util.logging.Level;
 /**
  *
  * @author
@@ -993,26 +997,57 @@ public class students extends javax.swing.JFrame {
         if (studentTable.getSelectedRowCount() != 0 && subjectsClass.subjectTable.getSelectedRowCount() != 0){    
             int studentRow = studentTable.getSelectedRow();
             int subjectRow = subjectsClass.subjectTable.getSelectedRow();
+            boolean checkIfValid = true;
+            String subjectCode = "";
 
             String studentTableValue = studentTable.getValueAt(studentRow, 0).toString();
             String subjectTableValue = subjectsClass.subjectTable.getValueAt(subjectRow, 0).toString();
+            String schedTableValue = subjectsClass.subjectTable.getValueAt(subjectRow, 4).toString();
 
             String query = "INSERT INTO enroll(student_id, subject_id) VALUES (?, ?)";
             String query2 = "INSERT INTO grades(enroll_id) VALUES ((SELECT enroll_id FROM enroll WHERE student_id = ? AND subject_id = ?));";
+            String query3 = "{CALL check_time(?, ?, ?, ?)}";
             
             try{
-                PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
-                PreparedStatement st2 = EnrollmentSystem.con.prepareStatement(query2);
+                CallableStatement cs = EnrollmentSystem.con.prepareCall(query3);
                 
-                st.setString(1, studentTableValue);
-                st.setString(2, subjectTableValue);
+                cs.setString(1, schedTableValue);
+                cs.setString(2, studentTableValue);
                 
-                st2.setString(1, studentTableValue);
-                st2.setString(2, subjectTableValue);
-              
-                st.executeUpdate();
-                st2.executeUpdate();
-                JOptionPane.showMessageDialog(this,"Subject Successfully enrolled");   
+                cs.registerOutParameter(3, Types.BOOLEAN);
+                cs.registerOutParameter(4, Types.VARCHAR);
+                cs.executeQuery();
+                
+                checkIfValid = cs.getBoolean(3);
+                subjectCode = cs.getString(4);
+                
+            }catch(Exception ex){
+                System.out.println(ex);
+            }
+            
+            System.out.println(checkIfValid);
+            System.out.println(subjectCode);
+            
+            try{
+                if (checkIfValid){
+                    
+                    PreparedStatement st = EnrollmentSystem.con.prepareStatement(query);
+                    PreparedStatement st2 = EnrollmentSystem.con.prepareStatement(query2);
+
+                    st.setString(1, studentTableValue);
+                    st.setString(2, subjectTableValue);
+
+                    st2.setString(1, studentTableValue);
+                    st2.setString(2, subjectTableValue);
+
+                    st.executeUpdate();
+                    st2.executeUpdate();
+                    JOptionPane.showMessageDialog(this,"Subject Successfully enrolled");
+                    
+                }else{
+                    JOptionPane.showMessageDialog(this,String.format("Conflict with Subject Code %s", subjectCode), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+  
             }catch(Exception ex){
                 JOptionPane.showMessageDialog(this,"The Subject is already enrolled", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -1048,15 +1083,18 @@ public class students extends javax.swing.JFrame {
                 
                 st2.setInt(1, Integer.parseInt(studentTable.getValueAt(idx, 0).toString()));
                 st2.setInt(2, Integer.parseInt(enrollTable.getValueAt(idx2, 0).toString()));
-
-                st.executeUpdate();
+                
+                
                 st2.executeUpdate();
-
+                st.executeUpdate();
+                
+                
+                JOptionPane.showMessageDialog(this,"Subject Successfully dropped");
             }catch(Exception ex){
-
+                System.out.println(ex);
             }
 
-            JOptionPane.showMessageDialog(this,"Subject Successfully dropped");
+            
             updateTableStudents();
             updateEnrollTable();
             subjectsClass.updateClassTable();
@@ -1407,7 +1445,39 @@ public class students extends javax.swing.JFrame {
                                     "    PRIMARY KEY (enroll_id)\n" +
                                     ");";
         
+        String dropProcedure = "DROP procedure IF EXISTS `check_time`";
+        
+        String createProcedure =
+                "CREATE PROCEDURE check_time(IN sched VARCHAR(21), IN id INT, OUT checkIfValid BOOLEAN, OUT subCode TEXT)\n"+
+                "BEGIN\n"+
+                "   DECLARE day_sched TEXT DEFAULT \"\";\n"+
+                "   DECLARE time_sched_begin TIME DEFAULT \"\";\n"+ 
+                "   DECLARE time_sched_end TIME DEFAULT \"\";\n"+
+                "   DECLARE day_input TEXT DEFAULT \"\";\n" +
+                "   DECLARE time_input_begin TIME DEFAULT \"\";\n" +
+                "   DECLARE time_input_end TIME DEFAULT \"\";\n" +
+                "   DECLARE count INT DEFAULT 0;\n" +
+                "   DECLARE x INT DEFAULT 0;\n" +
+                "   DECLARE sCode TEXT DEFAULT \"\";\n" +
+                "   SELECT COUNT(*) FROM subjects INNER JOIN enroll ON subjects.subject_id = enroll.subject_id AND enroll.student_id = id INTO count;\n" +
+                "   SET x = 0;\n" +
+                "   SET day_input = SUBSTRING(sched, 1, 2);\n" +
+                "   SET time_input_begin = STR_TO_DATE(SUBSTRING(sched, 4, 8), \"%l:%i %p\");\n" +
+                "   SET time_input_end = STR_TO_DATE(SUBSTRING(sched, 14, 9), \"%l:%i %p\");\n" +
+                "   SET checkIfValid = FALSE;\n" +
+                "   WHILE x < count DO\n" +
+
+                "       SELECT SUBSTRING(subject_sched, 1, 2), STR_TO_DATE(SUBSTRING(subject_sched, 4, 8), \"%l:%i %p\"), STR_TO_DATE(SUBSTRING(subject_sched, 14, 9), \"%l:%i %p\"), subject_code INTO day_sched, time_sched_begin, time_sched_end, sCode FROM subjects INNER JOIN enroll ON subjects.subject_id = enroll.subject_id AND enroll.student_id = id LIMIT x, 1;\n" +
+                "       SET x = x + 1;\n" +
+                "       IF day_input = day_sched AND (((time_input_begin BETWEEN time_sched_begin AND time_sched_end) OR (time_input_end BETWEEN time_sched_begin AND time_sched_end)) OR ((time_sched_begin BETWEEN time_input_begin AND time_input_end) OR (time_sched_end BETWEEN time_input_begin AND time_input_end))) THEN\n" +
+                "           SET checkIfValid = TRUE;\n" + 
+                "           SET subCode = sCode;\n" +
+                "       END IF;\n" +
+                "  END WHILE;\n" +
+                "END";
+        
         try{
+//            System.out.println(createProcedure);
             EnrollmentSystem.con.createStatement().executeUpdate(query1);
             
             String connect = String.format("jdbc:mysql://localhost:3306/%s", databaseName);
@@ -1421,12 +1491,16 @@ public class students extends javax.swing.JFrame {
             con2.createStatement().executeUpdate(createTransactionChargesTable);
             con2.createStatement().executeUpdate(createInvoiceTable);
             con2.createStatement().executeUpdate(createGradesTable);
+            con2.createStatement().executeUpdate(dropProcedure);
+            con2.createStatement().executeUpdate(createProcedure);
             
             JOptionPane.showMessageDialog(this,"Database " + databaseName + " created");
             
         }catch(SQLException ex){
             System.out.println(ex);
-//            JOptionPane.showMessageDialog(this,"Database already exists", "Error", JOptionPane.ERROR_MESSAGE);
+//            Logger lgr = Logger.getLogger(students.class.getName());
+//            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+            JOptionPane.showMessageDialog(this,"Database already exists", "Error", JOptionPane.ERROR_MESSAGE);
         }
         
     }
