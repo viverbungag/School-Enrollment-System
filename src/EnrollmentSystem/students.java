@@ -1049,8 +1049,9 @@ public class students extends javax.swing.JFrame {
                 st2.setInt(1, Integer.parseInt(studentTable.getValueAt(idx, 0).toString()));
                 st2.setInt(2, Integer.parseInt(enrollTable.getValueAt(idx2, 0).toString()));
 
-                st.executeUpdate();
                 st2.executeUpdate();
+                st.executeUpdate();
+                
 
             }catch(Exception ex){
 
