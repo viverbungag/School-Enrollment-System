@@ -1123,27 +1123,24 @@ public class teachers extends javax.swing.JFrame {
             if (nameArr.size() > 0){
                 if (!first){
                     finalQuery += " " + name_CB.getSelectedItem().toString();
-                    first = false;
                 }
-                
+                first = false;
                 finalQuery += " (" + String.join("AND ", nameArr) + ")";
             }
             
             if (departmentArr.size() > 0){
                 if (!first){
                     finalQuery += " " + department_CB.getSelectedItem().toString();
-                    first = false;
                 }
-                
+                first = false;
                 finalQuery += " (" + String.join("AND ", departmentArr) + ")";
             }
             
             if (addressArr.size() > 0){
                 if (!first){
                     finalQuery +=  " " + department_CB.getSelectedItem().toString();
-                    first = false;
                 }
-                
+                first = false;
                 finalQuery += " (" + String.join("AND ",addressArr) + ")";
             }
             
@@ -1152,17 +1149,16 @@ public class teachers extends javax.swing.JFrame {
             if (contactArr.size() > 0){
                 if (!first){
                     finalQuery += " " + contact_CB.getSelectedItem().toString();
-                    first = false;
                 }
-                
+                first = false;
                 finalQuery += " (" + String.join("AND ", contactArr) + ")";
             }
             
             if (status.length() > 0){
                 if (!first){
                     finalQuery += " " + status_CB.getSelectedItem().toString();
-                    first = false;
                 }
+                first = false;
                 finalQuery += " teacher_status LIKE '" + status + "%'";
             }
             

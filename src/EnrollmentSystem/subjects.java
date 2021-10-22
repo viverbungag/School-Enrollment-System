@@ -814,8 +814,8 @@ public class subjects extends javax.swing.JFrame {
             if (units.length() > 0){
                 if (!first){
                     finalQuery += " " + units_CB;
-                    first = false;
                 }
+                first = false;
                 finalQuery += " subject_units" + units_CB2.getSelectedItem() + " " + units;
             }
             
@@ -849,26 +849,24 @@ public class subjects extends javax.swing.JFrame {
             if (codeArr.size() > 0){
                 if (!first){
                     finalQuery += " " + code_CB.getSelectedItem().toString();
-                    first = false;
                 }
-                
+                first = false;
                 finalQuery += " (" + String.join("AND ", codeArr) + ")";
             }
             
             if (descArr.size() > 0){
                 if (!first){
                     finalQuery +=  " " + desc_CB.getSelectedItem().toString();
-                    first = false;
                 }
-                
+                first = false;
                 finalQuery += " (" + String.join("AND ",descArr) + ")";
             }
             
             if (sched.length() > 0){
                 if (!first){
                     finalQuery += " " + sched_CB.getSelectedItem().toString();
-                    first = false;
                 }
+                first = false;
                 finalQuery += " subject_sched LIKE '" + sched + "%'";
             }
             

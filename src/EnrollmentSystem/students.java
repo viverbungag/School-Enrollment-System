@@ -1285,45 +1285,40 @@ public class students extends javax.swing.JFrame {
             if (nameArr.size() > 0){
                 if (!first){
                     finalQuery += " " + nameCB.getSelectedItem().toString();
-                    first = false;
                 }
-                
+                first = false;
                 finalQuery += " (" + String.join("AND ", nameArr) + ")";
             }
             
             if (addressArr.size() > 0){
                 if (!first){
                     finalQuery +=  " " + addressCB.getSelectedItem().toString();
-                    first = false;
                 }
-                
+                first = false;
                 finalQuery += " (" + String.join("AND ",addressArr) + ")";
             }
             
             if (courseArr.size() > 0){
                 if (!first){
                     finalQuery += " " + courseCB.getSelectedItem().toString();
-                    first = false;
                 }
-                
+                first = false;
                 finalQuery += " (" + String.join("AND ", courseArr) + ")";
             }
             
             if (genderArr.size() > 0){
                 if (!first){
                     finalQuery += " " + genderCB.getSelectedItem().toString();
-                    first = false;
                 }
-                
+                first = false;
                 finalQuery += " (" + String.join("AND ", genderArr) + ")";
             }
             
             if (ylvlArr.size() > 0){
                 if (!first){
                     finalQuery += " " + ylvlCB.getSelectedItem().toString();
-                    first = false;
                 }
-                
+                first = false;
                 finalQuery += " (" + String.join("AND ", ylvlArr) + ")";
             }
             

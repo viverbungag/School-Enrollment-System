@@ -90,37 +90,37 @@ public class printGrades {
             
             int count = 0;
             while(rs.next()){
-                if (rs.getString("subject_id").length() > 0){
+                if (rs.getString("subject_id") != null){
                     insertCell(table2, rs.getString("subject_id"), Element.ALIGN_CENTER, 1, text12, 1, 255, 255, 255);
                 }else{
                     insertCell(table2, "null" , Element.ALIGN_CENTER, 1, text12, 1, 255, 255, 255);
                 }
                 
-                if (rs.getString("subject_code").length() > 0){
+                if (rs.getString("subject_code") != null){
                     insertCell(table2, rs.getString("subject_code"), Element.ALIGN_CENTER, 1, text12, 1, 255, 255, 255);
                 }else{
                     insertCell(table2, "null" , Element.ALIGN_CENTER, 1, text12, 1, 255, 255, 255);
                 }
                 
-                if (rs.getString("prelim").length() > 0){
+                if (rs.getString("prelim") != null){
                     insertCell(table2, rs.getString("prelim"), Element.ALIGN_CENTER, 1, text12, 1, 255, 255, 255);
                 }else{
                     insertCell(table2, "null" , Element.ALIGN_CENTER, 1, text12, 1, 255, 255, 255);
                 }
                 
-                if (rs.getString("midterm").length() > 0){
+                if (rs.getString("midterm") != null){
                     insertCell(table2, rs.getString("midterm"), Element.ALIGN_CENTER, 1, text12, 1, 255, 255, 255);
                 }else{
                     insertCell(table2, "null" , Element.ALIGN_CENTER, 1, text12, 1, 255, 255, 255);
                 }
                 
-                if (rs.getString("prefinal").length() > 0){
+                if (rs.getString("prefinal") != null){
                     insertCell(table2, rs.getString("prefinal"), Element.ALIGN_CENTER, 1, text12, 1, 255, 255, 255);
                 }else{
                     insertCell(table2, "null" , Element.ALIGN_CENTER, 1, text12, 1, 255, 255, 255);
                 }
                 
-                if (rs.getString("final").length() > 0){
+                if (rs.getString("final") != null){
                     insertCell(table2, rs.getString("final"), Element.ALIGN_CENTER, 1, text12, 1, 255, 255, 255);
                 }else{
                     insertCell(table2, "null" , Element.ALIGN_CENTER, 1, text12, 1, 255, 255, 255);
